@@ -1,0 +1,59 @@
+dev
+	root
+	cons	archfads
+	mnt
+	pipe
+	prog
+	rtc
+	srv
+
+	ip		bootp ip ipaux media netlog ppp compress
+	ether		netif
+	uart
+
+ip
+	tcp
+	udp
+
+lib
+	interp
+	image
+	memlayer
+	memimage
+	k
+
+link
+	etherscc2
+
+misc
+	archgeneric
+
+mod
+	sys
+
+options
+	int cflag = 0
+	int consoleprint = 1
+	int pckdebug = 0;
+
+root
+	/chan
+	/dev
+	/dis
+	/n
+	/net
+	/nvfs
+	/prog
+	/icons
+	/dev/draw
+	/dis/osinit.dis
+	/dis/lib
+	/dis/lib/ir.dis
+	/dis/lib/auth.dis
+	/dis/lib/ssl.dis
+	/icons/phone.bit
+	/icons/lucent.bit
+
+port
+	void localrefreshcompound(){}
+	void md5(){}

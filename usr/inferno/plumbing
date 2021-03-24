@@ -1,0 +1,38 @@
+# these are in order from most specific to least,
+# since first rule that fires wins.
+
+# image files go to wm/view
+kind is text
+data matches '[a-zA-Z0-9_\-./]+'
+data matches '([a-zA-Z0-9_\-./]+)\.(jpg|jpeg|gif|bit)'
+data isfile     $0
+plumb to view
+plumb start /dis/wm/view.dis $file
+
+# URLs go to wm/charon
+kind is text
+data matches '(https?|ftp|file|gopher|mailto|news|nntp|telnet|wais|prospero)://[a-zA-Z0-9_@]+([.:][a-zA-Z0-9_@]+)*/?[a-zA-Z0-9_?#~&/\-]+([:.][a-zA-Z0-9_?#~&/\-]+)*'
+plumb to web
+plumb start /dis/wm/charon.dis $0
+
+# .m files are looked up in /module and passed to wm/brutus
+kind is text
+data matches '([a-zA-Z0-9]+\.m)(:[0-9]+)?'
+data isfile     /module/$1
+data set        /module/$0
+plumb to edit
+plumb start /dis/wm/brutus.dis $file
+
+# existing files, possibly tagged by line number, go to wm/brutus
+kind is text
+data matches '([.a-zA-Z0-9_/\-]+[a-zA-Z0-9_/\-])(:[0-9]+)?'
+data isfile     $1
+plumb to edit
+plumb start /dis/wm/brutus.dis $file
+
+# existing files go to brutus
+kind is text
+data matches '[a-zA-Z0-9_./\-]+'
+data isdir      $0
+plumb to dir # dummy port; wm/dir doesn't use it
+plumb start /dis/wm/dir.dis $dir

@@ -1,0 +1,27 @@
+<../../../mkconfig
+
+TARG=\
+	pppclient.dis\
+	modem.dis\
+	script.dis\
+	pppgui.dis\
+	ppptest.dis\
+
+MODULES=\
+	modem.m\
+	pppclient.m\
+	pppgui.m\
+	script.m\
+
+SYSMODULES=\
+	sys.m\
+	draw.m\
+	tk.m\
+	dict.m\
+	string.m\
+	lock.m\
+	kill.m\
+
+DISBIN=$ROOT/dis/svc/ppp
+
+<$ROOT/mkfiles/mkdis

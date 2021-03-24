@@ -1,0 +1,34 @@
+<../../mkconfig
+
+TARG=\
+	ftpfs.dis\
+	styx.dis\
+	styxreply.dis\
+
+MODULES=\
+	styx.m\
+
+SYSMODULES=\
+	bufio.m\
+	daytime.m\
+	draw.m\
+	string.m\
+	sys.m\
+	tk.m\
+	wmlib.m\
+
+DISBIN=$ROOT/dis/lib
+
+<$ROOT/mkfiles/mkdis
+
+all:V:		wmftp.dis
+
+install:V:	$ROOT/dis/wm/wmftp.dis
+
+$ROOT/dis/wm/wmftp.dis:	wmftp.dis
+	rm -f $target && cp wmftp.dis $target
+
+wmftp.dis:	$MODULES $SYS_MODULE
+
+nuke:V:
+	rm -f $ROOT/dis/wm/wmftp.dis

@@ -1,0 +1,52 @@
+<../../../mkconfig
+
+TARG=	cache.dis\
+	content.dis\
+	date.dis\
+	echo.dis\
+	httpd.dis\
+	imagemap.dis\
+	parse.dis\
+	query.dis\
+	redirect.dis\
+	stats.dis\
+	alarm.dis\
+	cgiparse.dis\
+
+
+MODULES=\
+	cache.m\
+	cgi.m\
+	content.m\
+	date.m\
+	httpd.m\
+	parser.m\
+	query.m\
+	redirect.m\
+	alarm.m\
+	cgiparse.m\
+
+SYSMODULES=
+
+LOGS=	httpd.debug\
+	httpd.log\
+	httpd.rewrite\
+	httpd.suff\
+
+DISBIN=$ROOT/dis/svc/httpd
+
+<$ROOT/mkfiles/mkdis
+
+install:V: 	install-logs-$SHELLTYPE
+
+install-logs-rc install-logs-nt:V:
+	for (i in $LOGS)
+		rm -f $ROOT/services/httpd/$i && cp $i $ROOT/services/httpd/$i
+	chmod 644 $ROOT/services/httpd/httpd.log
+
+install-logs-sh:V:
+	for i in $LOGS
+	do
+		rm -f $ROOT/services/httpd/$i && cp $i $ROOT/services/httpd/$i
+	done
+	chmod 644 $ROOT/services/httpd/httpd.log

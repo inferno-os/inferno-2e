@@ -1,0 +1,23 @@
+TARGMODEL=	Inferno
+TARGSHTYPE=	sh
+CPUS=		power
+OBJDIR=		Inferno/power		#force everything to point to inferno directory
+
+O=		q
+OS=		q
+
+AR=		iar
+ARFLAGS=	vu
+ARPREFIX=
+
+AS=		qa
+ASFLAGS=
+
+CC=		qc
+CFLAGS=		-w -I$ROOT/Inferno/power/include -I$ROOT/include
+
+LD=		ql
+LDFLAGS=
+
+YACC=		yacc
+YFLAGS=		-d

@@ -1,0 +1,33 @@
+TARGMODEL=	Posix
+TARGSHTYPE=	sh
+CPUS=		sparc
+
+O=		o
+OS=		o
+
+AR=		ar
+ARFLAGS=	cvru
+
+AS=		cc
+ASFLAGS=	-c
+
+CC=		cc
+CFLAGS=		-c\
+		-mt\
+		-g\
+		-w\
+		-xCC \
+		-Xa\
+		-I$ROOT/Solaris/sparc/include\
+		-I$ROOT/include\
+		-I/usr/openwin/share/include\
+
+LD=		cc
+LDFLAGS=	-mt\
+		-L/usr/openwin/lib\
+
+SYSLIBS=
+EMULIBS=	-lsunmath -lsocket -lm -lX11 -lnsl -lposix4
+
+YACC=		yacc
+YFLAGS=		-d

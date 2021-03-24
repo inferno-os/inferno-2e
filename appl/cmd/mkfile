@@ -1,0 +1,133 @@
+<../../mkconfig
+
+TARG=\
+	B.dis\
+	addpassword.dis\
+	auplay.dis\
+	auhdr.dis\
+	bind.dis\
+	bindr.dis\
+	bit2gif.dis\
+	cat.dis\
+	cd.dis\
+	changelogin.dis\
+	chmod.dis\
+	cmp.dis\
+	cook.dis\
+	cp.dis\
+	cpu.dis\
+	date.dis\
+	datef.dis\
+	diff.dis\
+	dd.dis\
+	du.dis\
+	echo.dis\
+	emuinit.dis\
+	find.dis\
+	fone.dis\
+	getauthinfo.dis\
+	gettar.dis\
+	gif2bit.dis\
+	grep.dis\
+	gunzip.dis\
+	gzip.dis\
+	idoc.dis\
+	imount.dis\
+	kername.dis\
+	kill.dis\
+	ldir.dis\
+	ls.dis\
+	lstar.dis\
+	mathcalc.dis\
+	mdb.dis\
+	metamorph.dis\
+	mkdir.dis\
+	mkrdir.dis\
+	mkversenv.dis\
+	mount.dis\
+	mv.dis\
+	netready.dis\
+	netstat.dis\
+	ns.dis\
+	nsbuild.dis\
+	nsv.dis\
+	os.dis\
+	p.dis\
+	pause.dis\
+	phone.dis\
+	ps.dis\
+	puttar.dis\
+	pwd.dis\
+	randpass.dis\
+	raw2iaf.dis\
+	rcb.dis\
+	rcmd.dis\
+	rdp.dis\
+	rm.dis\
+	rmr.dis\
+	setupsigner.dis\
+	setupuser.dis\
+	sh.dis\
+	shargs.dis\
+	shutdown.dis\
+	slayer.dis\
+	sleep.dis\
+	spawn.dis\
+	stack.dis\
+	startclient.dis\
+	startserver.dis\
+	stream.dis\
+	string.dis\
+	sv.dis\
+	tail.dis\
+	tclsh.dis\
+	test.dis\
+	time.dis\
+	touchcal.dis\
+	tokenize.dis\
+	unicode.dis\
+	unmount.dis\
+	unmountr.dis\
+	wav2iaf.dis\
+	wc.dis\
+	webgrab.dis\
+	whoami.dis\
+	wish.dis\
+	xd.dis\
+	xargs.dis\
+	yacc.dis\
+	zeros.dis\
+
+MODULES=\
+
+SYSMODULES=\
+	sys.m\
+	draw.m\
+	string.m\
+	prefab.m\
+	ir.m\
+	srv.m\
+	tk.m\
+	daytime.m\
+	keyring.m\
+	security.m\
+	bindr.m\
+	bufio.m\
+	readdir.m\
+	regex.m\
+	rtoken.m\
+	newns.m\
+	sh.m\
+	workdir.m\
+	filepat.m\
+	webget.m\
+	url.m\
+	deflate.m\
+	inflate.m\
+
+DISBIN=$ROOT/dis
+
+<$ROOT/mkfiles/mkdis
+
+auhdr.dis: auplay.dis
+	cp auplay.dis auhdr.dis

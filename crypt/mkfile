@@ -1,0 +1,44 @@
+<../mkconfig
+
+TARGTYPE=${SYSTARG:os%=Inferno%}		# maps 'os' into 'Inferno'
+
+LIB=libcrypt.a
+
+MATHOBJ = msbtable.$O coremult.$O bignum.$O bigmath.$O\
+	  fastmult.$O bigPow.$O primes.$O euclid.$O\
+	  quadres.$O jacobi.$O longmult.$O\
+	  negate.$O longBigDivide.$O crtCombine.$O\
+	  bigXor.$O bigMod.$O bigDivide.$O bigSubtract.$O bigAnd.$O bigCopy.$O\
+	  bigOr.$O bigAdd.$O bigCompare.$O bigLeftShift.$O bigRightShift.$O\
+	  brickell_bigpow.$O bigCube.$O $TARGTYPE-$OBJTYPE.$O\
+
+RANDOBJ = fsr_rand.$O truerand.$O randomBytes.$O reallyRandomBytes.$O\
+	  pseudoRandomBytes.$O bigPseudoRand.$O getRandBetween.$O bigRand.$O\
+	  bigReallyRand.$O fastrand.$O\
+
+
+CRYPTOBJ = md4.$O md5.$O sha.$O rc4.$O des.$O\
+	   DSS.$O\
+	   elgamal.$O genEGParams.$O genEGKeySet.$O genEGPrivateKey.$O\
+	   EGDecrypt.$O genDiffieHellmanSet.$O EGEncrypt.$O
+
+# Des.c and desmodes.c have been combined in des.c included above.
+# The rest of these files are not needed.
+#DESOBJ =   des.$O desmodes.$O desconv.$O\
+#	   block3CBC.$O block3ECB.$O block3OFM.$O blockCBC.$O blockECB.$O\
+#	   blockOFM.$O buffer3CBC.$O buffer3ECB.$O buffer3OFM.$O\
+#	   bufferCBC.$O bufferECB.$O bufferOFM.$O key_crunch.$O\
+
+UTILSOBJ = system.$O u64.$O
+
+OFILES = $MATHOBJ $CRYPTOBJ $RANDOBJ $UTILSOBJ #$DESOBJ -- unused
+
+HFILES=$ROOT/include/libcrypt.h
+
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE
+
+$MATHOBJ: bigmath.h
+$RANDOBJ: rand.h
+
+test: $LIB test.$O
+	vl test.$O

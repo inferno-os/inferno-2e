@@ -1,0 +1,1 @@
+test -d $1 && echo dir  >$2

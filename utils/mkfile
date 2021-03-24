@@ -1,0 +1,98 @@
+<../mkconfig
+
+#
+#	Utils we build everywhere, because the Research versions don't
+#	contain our changes (or they don't exist on Brazil).
+#
+ALWAYS=\
+	libmach\
+	ar\
+	cc\
+	5a\
+	5c\
+	5l\
+	5cv\
+	qa\
+	qc\
+	ql\
+	sqz\
+	acid\
+	srclist\
+
+#
+#	Utils we build on Posix and Nt, which already exist on Brazil.
+#
+NOTBRAZIL=\
+	yacc\
+	8a\
+	8c\
+	8l\
+	0a\
+	0c\
+	0l\
+	va\
+	vc\
+	vl\
+	ka\
+	kc\
+	kl\
+	ms2\
+	ksize\
+	ndate\
+	data2s\
+	data2c\
+	mk\
+	nm\
+	monconf\
+
+#
+#	Utils we build on Nt, for build environment compatibility.
+#
+NTONLY=\
+	cp\
+	echo\
+	mkdir\
+	mv\
+	rcsh\
+	rm\
+	sed\
+	test\
+	tr\
+
+#
+#	Utils we currently don't build.
+#
+NEVER=\
+	1a\
+	1c\
+	1l\
+	2a\
+	2c\
+	2l\
+
+all:QV:		all-$TARGMODEL
+clean:QV:	clean-$TARGMODEL
+install:QV:	install-$TARGMODEL
+installall:QV:	installall-$TARGMODEL
+nuke:QV:	nuke-$TARGMODEL
+
+%-Inferno:QV:
+	for (j in $ALWAYS)
+	{
+		echo '@{cd' $j '; mk $MKFLAGS $stem}'
+		@{cd $j; mk $MKFLAGS $stem}
+	}
+
+%-Posix:QV:
+	for j in $ALWAYS $NOTBRAZIL
+	do
+		echo "(cd $j; mk $MKFLAGS $stem)"
+		(cd $j; mk $MKFLAGS $stem)
+	done
+
+%-Nt:QV:
+	for (j in $ALWAYS $NOTBRAZIL $NTONLY)
+	{
+		echo.exe '@{cd' $j '; mk $MKFLAGS $stem}'
+		@{cd $j; mk $MKFLAGS $stem}
+	}

@@ -1,0 +1,42 @@
+BINTARG=${TARG:%=$DISBIN/%}
+MODDIR=$ROOT/module
+SYS_MODULE=${SYSMODULES:%=$MODDIR/%}
+SYS_DATA=${TARGDATA:%=$DATADIR/%}
+LIMBOFLAGS=-I$MODDIR $COMPFLAG
+
+all:V:		$TARG
+
+install:V:	$BINTARG $SYS_DATA
+
+installall:V:	install
+
+clean:V: 	clean-std
+
+nuke:V:		nuke-std
+
+$DISBIN/%.dis:	%.dis
+	rm -f $DISBIN/$stem.dis && cp $stem.dis $DISBIN/$stem.dis
+
+$SYS_DATA: $TARGDATA
+	for j in $TARGDATA
+	do
+		(cp $j $DATADIR/$j)
+	done
+
+%.dis:		$MODULES $SYS_MODULE
+
+%.dis:		 %.b
+		echo $TARG
+	limbo $LIMBOFLAGS -gw $stem.b
+
+%.s:		%.b
+	limbo $LIMBOFLAGS -w -G -S $stem.b
+
+%.install:V:	$DISBIN/%.dis
+%.installall:V:	$DISBIN/%.dis
+
+clean-std:V:
+	rm -f *.dis *.sbl
+
+nuke-std:V:	clean-std
+	cd $DISBIN; rm -f $TARG

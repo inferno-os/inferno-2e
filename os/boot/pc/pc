@@ -1,0 +1,9 @@
+# Generic x86 BSP
+
+link
+	devfloppy		dma pci
+	devata		dma pci
+	devether		bootp
+#	ether21140	pci
+	ether82557	pci
+	etherelnk3	pci

@@ -1,0 +1,5 @@
+$MPEG		your_mpeg_server
+$SIGNER		your_authentication_key_signer
+$FILESERVER	your_fileserver
+$MAILSERVER	your_mailserver_for_mux_pop3_client
+$PROXY		your_ftp_proxy_server

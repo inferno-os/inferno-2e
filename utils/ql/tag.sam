@@ -1,0 +1,5 @@
+,x/(\.|->)offset/s/offset/u0.aoffset/
+,x/(\.|->)sval/s/sval/u0.asval/
+,x/(\.|->)ieee/s/ieee/u0.aieee/
+,x/buf(\.|->)cbuf/s/cbuf/u0.bcbuf/
+,x/buf(\.|->)xbuf/s/xbuf/u0.bxbuf/

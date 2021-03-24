@@ -1,0 +1,23 @@
+<../../../mkconfig
+
+TARG=\
+	arg.dis\
+	mkext.dis\
+	mkfs.dis\
+	mkrm.dis\
+	part.dis\
+	kfscmd.dis\
+	kfswiz.dis\
+
+MODULES=\
+	arg.m\
+
+SYSMODULES=\
+	sys.m\
+	draw.m\
+	bufio.m\
+	string.m\
+
+DISBIN=$ROOT/dis/disk
+
+<$ROOT/mkfiles/mkdis

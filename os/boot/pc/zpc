@@ -1,0 +1,7 @@
+# Ziatech ZT5512 BSP
+
+link
+	devfloppy		dma pci
+	devata		dma pci
+	devether		bootp
+	ether21140	pci

@@ -1,0 +1,8 @@
+<../../../mkconfig
+
+DIRS=\
+	lib\
+	wm\
+	charon\
+
+<$ROOT/mkfiles/mksubdirs

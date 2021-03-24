@@ -1,0 +1,16 @@
+#
+#	architecture-dependent files for Linux
+#
+
+TARGFILES=devfs-posix.$O\
+	devip.$O\
+	ipif-posix.$O\
+	os-Linux.$O\
+	win-x11.$O\
+	devaudio.$O\
+	devaudio-Linux.$O\
+	deveia-Linux.$O\
+	svp.$O\
+	srv.$O\
+
+SYSLIBS= -lm -lX11

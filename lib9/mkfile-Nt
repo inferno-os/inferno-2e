@@ -1,0 +1,7 @@
+TARGFILES=\
+	$IMPORTFILES\
+	dirstat-Nt.$O\
+	errstr-Nt.$O\
+	getuser-Nt.$O\
+	setbinmode-Nt.$O\
+	log-Nt.$O\

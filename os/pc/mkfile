@@ -1,0 +1,79 @@
+<../../mkconfig
+
+#Configurable parameters
+
+CONF=pc			#default configuration
+CONFLIST=pc pcdisk zpc
+
+SYSTARG=$OSTARG
+OBJTYPE=386
+INSTALLDIR=$ROOT/Inferno/$OBJTYPE/bin	#path of directory where kernel is installed
+
+#end configurable parameters
+
+<$ROOT/mkfiles/mkfile-$SYSTARG-$OBJTYPE	#set vars based on target system
+
+<| $SHELLNAME ../port/mkdevlist $CONF	#sets $IP, $DEVS, $ETHERS, $VGAS, $PORT, $MISC, $LIBS, $OTHERS
+
+OBJ=\
+	l.$O\
+	fpsave.$O\
+	clock.$O\
+	i8250.$O\
+	i8253.$O\
+	i8259.$O\
+	kbd.$O\
+	main.$O\
+	memory.$O\
+	mmu.$O\
+	screen.$O\
+	trap.$O\
+	$CONF.root.$O\
+	$IP\
+	$DEVS\
+	$ETHERS\
+	$LINKS\
+	$VGAS\
+	$PORT\
+	$MISC\
+	$OTHERS\
+
+LIBNAMES=${LIBS:%=lib%.a}
+LIBDIRS=$LIBS
+
+HFILES=\
+	u.h\
+	mem.h\
+	dat.h\
+	fns.h\
+	io.h\
+
+CFLAGS=-w -I$ROOT/Inferno/$OBJTYPE/include -I$ROOT/include -I$ROOT/interp
+KERNDATE=`{$NDATE}
+
+default:V: i$CONF
+
+i$CONF: $OBJ $CONF.c $CONF.root.h $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD -o $target -T0x80100020 -l $OBJ $CONF.$O $LIBFILES
+	$KSIZE $target
+
+# "raw" version of kernel for binary comparison testing
+i$CONF.raw: $OBJ $CONF.c $CONF.root.h $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='0 $CONF.c
+	$LD -s -o $target -T0x80100020 -l $OBJ $CONF.$O $LIBFILES
+	$KSIZE $target
+
+install:V: $INSTALLDIR/i$CONF $INSTALLDIR/i$CONF.raw
+
+<../port/portmkfile
+
+clock.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+devether.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+fault386.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+main.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+trap.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+
+devether.$O $ETHERS:	etherif.h ../port/netif.h
+$VGAS:		screen.h vga.h
+$IP:		../ip/ip.h

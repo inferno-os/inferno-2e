@@ -1,0 +1,92 @@
+<../../mkconfig
+
+#Configurable parameters
+
+CONF=mpc			#default configuration
+CONFLIST=mpc paq rpcg
+KZERO=0x00003020	# until rev A chip in use
+#KZERO=0x20003020
+
+SYSTARG=$OSTARG
+OBJTYPE=power
+INSTALLDIR=$ROOT/Inferno/$OBJTYPE/bin	#path of directory where kernel is installed
+
+#end configurable parameters
+
+<$ROOT/mkfiles/mkfile-$SYSTARG-$OBJTYPE	#set vars based on target system
+
+<| $SHELLNAME ../port/mkdevlist $CONF	#sets $IP, $DEVS, $ETHERS, $VGAS, $PORT, $MISC, $LIBS, $OTHERS
+
+OBJ=\
+	l.$O\
+	nofp.$O\
+	clock.$O\
+	cpm.$O\
+	faultpower.$O\
+	fpi.$O\
+	fpimem.$O\
+	fpipower.$O\
+	kbd.$O\
+	main.$O\
+	memory.$O\
+	mmu.$O\
+	rmap.$O\
+	screen.$O\
+	trap.$O\
+	$CONF.root.$O\
+	$IP\
+	$DEVS\
+	$ETHERS\
+	$LINKS\
+	$VGAS\
+	$PORT\
+	$MISC\
+	$OTHERS\
+
+LIBNAMES=${LIBS:%=lib%.a}
+LIBDIRS=$LIBS
+
+HFILES=\
+	u.h\
+	mem.h\
+	dat.h\
+	fns.h\
+	io.h\
+	screen.h\
+
+CFLAGS=-w -F -I. -I../port -I$ROOT/Inferno/$OBJTYPE/include -I$ROOT/include -I$ROOT/interp
+KERNDATE=`{$NDATE}
+
+default:V: i$CONF.sq
+
+# "raw" version of kernel for binary comparison testing
+i$CONF.raw:	$OBJ $CONF.c $CONF.root.h $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='0 $CONF.c
+	$LD -s -o $target -T$KZERO -l $OBJ $CONF.$O $LIBFILES
+	$KSIZE $target
+
+i$CONF:	$OBJ $CONF.c $CONF.root.h $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD -o $target -T$KZERO -l $OBJ $CONF.$O $LIBFILES
+	$KSIZE $target
+
+i$CONF.sq:	i$CONF
+	sqz -w i$CONF >$target
+
+install:V: $INSTALLDIR/i$CONF $INSTALLDIR/i$CONF.sq $INSTALLDIR/i$CONF.raw
+
+<../port/portmkfile
+
+../init/$INIT.dis:	../init/$INIT.b
+		cd ../init; mk $INIT.dis
+
+clock.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+devether.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+faultpower.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+main.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+trap.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+
+devether.$O $ETHERS:	etherif.h ../port/netif.h
+
+#$VGAS:		screen.h vga.h
+$IP:		../ip/ip.h

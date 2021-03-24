@@ -1,0 +1,75 @@
+<../../../../mkconfig
+
+LOCALE_ROOT=$ROOT/locale/zh_CN
+COMPFLAG=-I$ROOT/appl/charon -I$LOCALE_ROOT/module
+DIRS=\
+
+TARG=\
+	out_input.dis\
+	keyIn.dis\
+	gb2u.dis\
+
+LOCALE_MODULES=\
+	out_input.m\
+	keyIn.m\
+	gb2u.m\
+
+MODULES=${LOCALE_MODULES:%=$LOCALE_ROOT/module/%}
+
+SYSMODULES= \
+	bufio.m\
+	cci.m\
+	chprocess.m\
+	csget.m\
+	daytime.m\
+	db.m\
+	debug.m\
+	deflate.m\
+	devpointer.m\
+	dict.m\
+	draw.m\
+	eventCodes.m\
+	filepat.m\
+	getopt.m\
+	hash.m\
+	html.m\
+	i18n.m\
+	imagefile.m\
+	inflate.m\
+	ir.m\
+	keyring.m\
+	lock.m\
+	mpeg.m\
+	newns.m\
+	plumbmsg.m\
+	prefab.m\
+	pslib.m\
+	quicktime.m\
+	rand.m\
+	readdir.m\
+	readimage.m\
+	regex.m\
+	riff.m\
+	rtoken.m\
+	security.m\
+	sh.m\
+	smtp.m\
+	srv.m\
+	string.m\
+	styx.m\
+	sys.m\
+	timedio.m\
+	tmonitor.m\
+	url.m\
+	volume.m\
+	wmlib.m\
+
+DISBIN=$ROOT/dis/lib
+
+TARGDATA=Gb2U.txt\
+	 Upinyin.dat\
+
+DATADIR=$DISBIN
+
+
+<../../mkdis

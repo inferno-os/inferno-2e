@@ -1,0 +1,15 @@
+main()
+{
+}
+trap()
+{
+}
+syscall()
+{
+}
+_main()
+{
+}
+_mul()
+{
+}

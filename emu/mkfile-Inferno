@@ -1,0 +1,9 @@
+#
+#	architecture-dependent files for Inferno
+#
+
+TARGFILES=asm-Inferno-$OBJTYPE.$O\
+	devfs-Inferno.$O\
+	os-Inferno.$O\
+	win-Inferno.$O\
+

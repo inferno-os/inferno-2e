@@ -1,0 +1,22 @@
+<../../../mkconfig
+
+TARG=	dosfs.dis\
+	dossubs.dis\
+	iotrack.dis\
+	dossrv.dis\
+	styx.dis\
+
+MODULES=\
+	dosfs.m\
+	dossubs.m\
+	iotrack.m\
+
+SYSMODULES=\
+	styx.m\
+	sys.m\
+
+DISBIN=$ROOT/dis/svc/dossrv
+
+<$ROOT/mkfiles/mkdis
+
+install:V: 	

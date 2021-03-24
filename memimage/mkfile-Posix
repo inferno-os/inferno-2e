@@ -1,0 +1,9 @@
+#
+#	Object files specific for Inferno/Plan9
+#
+SYSFILES=alloc-x11.$O\
+	cload-x11.$O\
+	draw-x11.$O\
+	load-x11.$O\
+	unload-x11.$O\
+

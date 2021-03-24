@@ -1,0 +1,23 @@
+TARGMODEL=	Inferno
+TARGSHTYPE=	rc
+CPUS=		mips 386 sparc
+
+O=		k
+OS=		v85ok
+
+AR=		ar
+ARFLAGS=	vu
+
+AS=		ka
+ASFLAGS=
+
+CC=		kc
+CFLAGS=		-w -I$ROOT/Plan9/sparc/include -I$ROOT/include
+
+LD=		kl
+LDFLAGS=
+
+SYSLIBS=
+
+YACC=		yacc
+YFLAGS=		-d

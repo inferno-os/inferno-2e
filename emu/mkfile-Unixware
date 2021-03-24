@@ -1,0 +1,17 @@
+#
+#	architecture-dependent files for Unixware
+#
+
+TARGFILES=asm-Unixware-$OBJTYPE.$O\
+	devfs-posix.$O\
+	devip.$O\
+	ipif-posix.$O\
+	os-Unixware.$O\
+	win-x11.$O\
+	devaudio.$O\
+	devaudio-Unixware.$O\
+	deveia-Unixware.$O\
+	svp.$O\
+	srv.$O\
+
+SYSLIBS=	-lm -lX11 -lsocket -lnsl -lresolv -lxti -Kthread

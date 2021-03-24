@@ -1,0 +1,139 @@
+<../../mkconfig
+
+#Configurable parameters
+
+CONF=shandev				#default configuration
+CONFLIST=shandev shannon swordbsp swordprod brutus caesar brutusdev
+
+PRODCONFLIST=shanfail swordbimod	# /prod must be present to build these
+
+SYSTARG=$OSTARG
+OBJTYPE=arm
+INSTALLDIR=$ROOT/Inferno/$OBJTYPE/bin	#path of directory where kernel is installed
+#end configurable parameters
+
+<$ROOT/mkfiles/mkfile-$SYSTARG-$OBJTYPE	#set vars based on target system
+
+<| $SHELLNAME ../port/mkversion		# sets $VERSION, $BUILD
+RELEASE=inf$VERSION-$BUILD		# default, overriden in kernel config file
+KERTYPE=$CONF				# default, overriden in kernel config file
+KERNAME=kern1				# default, overriden in kernel config file
+
+<| $SHELLNAME ../port/mkdevlist $CONF	#sets $IP, $DEVS, $ETHERS, $VGAS, $PORT, $MISC, $LIBS, $OTHERS
+
+#Target directory for kernels for /prod delivery (nb: mkdevlist changes $KERTYPE)
+KERNDIR=$ROOT/prod/$KERTYPE/services/bin
+
+KTZERO=0x8080
+LDFLAG=
+
+OBJ=\
+	l.$O\
+	bpenv.$O\
+	clock.$O\
+	div.$O\
+	dma.$O\
+	fpi.$O\
+	fpiarm.$O\
+	fpimem.$O\
+	main.$O\
+	mcp.$O\
+	mmu.$O\
+	screen.$O\
+	trap.$O\
+	$CONF.root.$O\
+	$IP\
+	$DEVS\
+	$ETHERS\
+	$LINKS\
+	$PORT\
+	$MISC\
+	$OTHERS\
+
+LIBNAMES=${LIBS:%=lib%.a}
+LIBDIRS=$LIBS
+
+HFILES=\
+	u.h\
+	mem.h\
+	armv4.h\
+	dat.h\
+	fns.h\
+	io.h\
+	fpi.h\
+
+CFLAGS=-Fw -I$ROOT/Inferno/$OBJTYPE/include -I$ROOT/include -I$ROOT/interp
+KERNDATE=`{$NDATE}
+
+default:V: i$CONF.gz
+
+deliver:V: $KERNDIR/$KERNAME.gz
+
+install:V: $INSTALLDIR/i$CONF $INSTALLDIR/i$CONF.gz $INSTALLDIR/i$CONF.raw
+
+i$CONF: $OBJ $CONF.c $CONF.root.h $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD $LDFLAG -o $target -T$KTZERO -R4 -l $OBJ $CONF.$O $LIBFILES
+
+# old "plan9" format executables for inf2.1 styxmon/sboot
+i$CONF.p9: $OBJ $CONF.c $CONF.root.h $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD -s -o $target -T0x8020 -R4 -l $OBJ $CONF.$O $LIBFILES
+
+i$CONF.p9.gz: i$CONF.p9
+	rm -f i$CONF.p9.gz
+	gzip -9 i$CONF.p9
+
+# "raw" version of kernel for binary comparison testing
+i$CONF.raw: $OBJ $CONF.c $CONF.root.h $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='0 $CONF.c
+	$LD -s -o $target -T$KTZERO -R4 -l $OBJ $CONF.$O $LIBFILES
+
+i$CONF.aif: i$CONF
+	5cv -s -H1 -T$KTZERO $prereq $target
+
+GZNAME=${KERTYPE}_${KERNAME}_$RELEASE$SECURITY
+
+i$CONF.gz: i$CONF.aif
+	cp $prereq $GZNAME
+	gzip -c $GZNAME >$target
+	rm -f $GZNAME
+
+$ROOT/os/sa1100/$CONF.ver: $CONF
+	{
+		echo 'type='$KERTYPE
+		echo 'version='$RELEASE
+		echo 'build=inf'$VERSION-$BUILD
+		echo 'security='$SECURITY
+		echo 'date='$KERNDATE
+	} >$target
+
+<../port/portmkfile
+
+../init/$INIT.dis:	../init/$INIT.b
+		cd ../init; mk $INIT.dis
+
+%.$O:	../smarm/%.c
+	$CC $CFLAGS -I. ../smarm/$stem.c
+
+%.$O:	../smarm/%.s
+	$AS $CFLAGS -I. ../smarm/$stem.s
+
+# Deliver kernel into product release
+$KERNDIR/$KERNAME.gz: i$CONF.gz
+	cp i$CONF.gz $target
+
+# ../smarm/%.data.c ../smarm/%.stubs.s: ../smarm/%.o ../smarm/smodem.stubs
+# 	cd ../smarm && mk 'SHELLTYPE='$SHELLTYPE 'SYSTARG='$SYSTARG 'OBJTYPE='$OBJTYPE ../smarm/$stem.data.c ../smarm/$stem.stubs.s
+
+clock.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+devether.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+devsapcm.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+fault386.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+main.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+trap.$O:	$ROOT/Inferno/$OBJTYPE/include/ureg.h
+
+devether.$O $ETHERS:	etherif.h ../port/netif.h
+$IP dummy:		../ip/ip.h
+
+dummy:V:

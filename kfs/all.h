@@ -1,0 +1,6 @@
+#include        "../emu/dat.h"
+#include        "../emu/fns.h"
+#include        "../emu/error.h"
+#include	"styx.h"
+#include	"fdat.h"
+#include	"ffns.h"

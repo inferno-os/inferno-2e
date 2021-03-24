@@ -1,0 +1,18 @@
+#
+# This is the new CS config file
+# format: 
+#	<mod-path> <reg-ex>
+# where <mod-path> is the module to load and execute when <reg-ex>
+# matches the dialed (queried) address.
+# order of operations is sequential and translation is progressive.
+#
+# Example:
+#	/dis/svc/localservice.dis (\$.+)
+# will send all strings starting with $ to /dis/svc/localservice.dis
+#
+
+/dis/svc/cs/localservice.dis (\$.+)
+/dis/svc/cs/ipservice.dis ([tcp|udp|net]!.+!.+)
+/dis/svc/cs/ispservice.dis ([tcp|udp]!.+!.+)
+
+

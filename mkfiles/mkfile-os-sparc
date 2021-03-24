@@ -1,0 +1,23 @@
+TARGMODEL=	Inferno
+TARGSHTYPE=	sh
+CPUS=		sparc
+OBJDIR=		Inferno/sparc		#force everything to point to inferno directory
+
+O=		k
+OS=		k
+
+AR=		iar
+ARFLAGS=	vu
+ARPREFIX=
+
+AS=		ka
+ASFLAGS=
+
+CC=		kc
+CFLAGS=		-w -I$ROOT/Inferno/sparc/include -I$ROOT/include
+
+LD=		kl
+LDFLAGS=
+
+YACC=		yacc
+YFLAGS=		-d

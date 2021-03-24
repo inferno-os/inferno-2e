@@ -1,0 +1,21 @@
+$AWK '
+/VERSION/{
+		n = split($0, str, "\"");
+		if (n != 3)
+			next;
+		n = split(str[2], fields, " ");
+		if (n != 4 || fields[1] != "Release" || fields[3] != "Build")
+			next;
+		ok = 1;
+		print "VERSION=" fields[2];
+		print "BUILD=" int(fields[4]);
+		secpos = match(fields[4], "[a-z]");
+		if (secpos != 0)
+			security = substr(fields[4], secpos);
+		print "SECURITY=" security;
+}
+END{
+		if (!ok)
+			exit "bad version.m";
+}
+' $ROOT/module/version.m

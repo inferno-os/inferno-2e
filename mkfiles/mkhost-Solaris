@@ -1,0 +1,17 @@
+
+#	Variables for host system type = Solaris
+
+SHELLTYPE=	sh
+SHELLNAME=	/bin/sh
+HOSTMODEL=	Posix
+OSTARG=		os
+
+DATA2S=		data2s
+NDATE=		ndate
+KSIZE=		ksize
+AWK=		nawk
+
+JAVAC=  /ig/bin/jdk1.1.4/bin/javac 
+ARMLINK= /usr/dist/pkgs/sparc/arm210/armlink
+ARMCC= /usr/dist/pkgs/sparc/arm210/armcc
+ARMASM= /usr/dist/pkgs/sparc/arm210/armasm

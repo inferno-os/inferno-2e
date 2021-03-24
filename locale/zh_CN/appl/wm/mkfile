@@ -1,0 +1,20 @@
+<../../../../mkconfig
+
+LOCALE_ROOT=$ROOT/locale/zh_CN
+COMPFLAG=-I$ROOT/appl/charon -I$LOCALE_ROOT/module
+TARG=\
+	wm.dis\
+
+ICONS=\
+
+LOCALE_MODULES=\
+	out_input.m\
+
+MODULES=${LOCALE_MODULES:%=$LOCALE_ROOT/module/%}
+
+SYSMODULES=\
+
+DISBIN=$ROOT/dis/wm
+
+<../../mkdis
+

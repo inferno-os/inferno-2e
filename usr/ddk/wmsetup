@@ -1,0 +1,26 @@
+# Lines beginning 'exec' are commands to start automatically within wm
+
+exec /dis/wm/plumb.dis
+exec /dis/wm/wmmash.dis
+
+#
+# This file defines the format of the cascade menus of the
+# start button in wm
+#
+#The entries are 3 or 4 ":" separated fields
+#<Button Label>:<Menu Label>:<application path>
+#<Button Label>:<Menu Label>:<Menu Label>:<application path>
+System:Clock:/dis/wm/date.dis
+System:Limbo Debugger:/dis/wm/deb.dis
+System:Memory:/dis/wm/memory.dis
+System:Module Manager:/dis/wm/rt.dis
+System:Task Manager:/dis/wm/task.dis
+Applications:Mash:/dis/wm/wmmash.dis
+Applications:Note Pad:/dis/wm/edit.dis
+Applications:Text Editor:/dis/wm/brutus.dis
+Applications:Ftpfs:/dis/wm/wmftp.dis
+Media Players:AVI Player:/dis/wm/avi.dis
+Media Players:Coffee:/dis/wm/coffee.dis
+Media Players:GIF Viewer:/dis/wm/view.dis
+Media Players:Mpeg Player:/dis/wm/mpeg.dis
+Media Players:QuickTime Player:/dis/wm/qt.dis

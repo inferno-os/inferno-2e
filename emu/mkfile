@@ -1,0 +1,106 @@
+<../mkconfig
+
+TARG=emu
+
+COMMONFILES=\
+	alloc.$O\
+	chan.$O\
+	dev.$O\
+	devcmd.$O\
+	devcon.$O\
+	devdraw.$O\
+	devkfs.$O\
+	devmnt.$O\
+	devpipe.$O\
+	devprog.$O\
+	devroot.$O\
+	devsrv.$O\
+	devssl.$O\
+	dial.$O\
+	dis.$O\
+	discall.$O\
+	error.$O\
+	errstr.$O\
+	exception.$O\
+	exportfs.$O\
+	inferno.$O\
+	latin1.$O\
+	lock.$O\
+	main.$O\
+	memones.$O\
+	ns.$O\
+	proc.$O\
+	qio.$O\
+	styx.$O\
+	sysfile.$O\
+
+<mkfile-$SYSTARG		# sets $SYSLIBS & $TARGFILES with system-dependent files
+
+OFILES= $COMMONFILES $TARGFILES
+
+LIBS=\
+	interp\
+	prefab\
+	math\
+	tk\
+	keyring\
+	image\
+	memlayer\
+	memimage\
+	crypt\
+	kfs\
+	9\
+
+HFILES=\
+	$ROOT/$OBJDIR/include/lib9.h\
+	$ROOT/include/styx.h\
+	$ROOT/include/interp.h\
+	$ROOT/include/image.h\
+	$ROOT/include/version.h\
+	dat.h\
+	fns.h\
+	error.h\
+
+BIN=$ROOT/$OBJDIR/bin
+
+
+<$ROOT/mkfiles/mkone-$SHELLTYPE
+
+CFLAGS='-DROOT="'$ROOT'"' -DEMU -I$ROOT/interp $CTHREADFLAGS $CFLAGS
+LDFLAGS=	$LDTHREADFLAGS $LDFLAGS
+LDSYSLIBS=	$LDSYSLIBS $LDTHREADLIBS
+
+devprog.$O \
+devsrv.$O \
+inferno.$O:	$ROOT/interp/runt.h
+
+main.$O \
+os-Nt.$O:	$ROOT/include/version.h
+
+devdraw.$O:	$ROOT/include/image.h\
+		$ROOT/include/memimage.h\
+		$ROOT/include/memlayer.h
+
+
+ipif-$SYSTARG.$O \
+devip.$O:		ip.h $HFILES
+
+devaudio-Irix.$O:	devaudio-tbls.c
+devaudio-Linux.$O:	devaudio-tbls.c
+devaudio-Nt.$O:		devaudio-tbls.c
+devaudio-Solaris.$O:	devaudio-tbls.c
+devaudio-Unixware.$O:	devaudio-tbls.c
+
+deveia-Linux.$O:	deveia-posix.c deveia-bsd.c
+deveia-Solaris.$O:	deveia-posix.c deveia-bsd.c
+deveia-Unixware.$O:	deveia-posix.c deveia-bsd.c
+
+srv.$O:			srv.h srvm.h
+
+srv.h srvm.h:D:		$ROOT/module/srvrunt.b $ROOT/module/srv.m
+			rm -f $alltarget
+			limbo -a -I$ROOT/module $ROOT/module/srvrunt.b >srv.h
+			limbo -t Srv -I$ROOT/module $ROOT/module/srvrunt.b >srvm.h
+
+nuke:			nuke-std
+			rm -f srv.h srvm.h

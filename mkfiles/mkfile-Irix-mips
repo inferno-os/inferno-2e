@@ -1,0 +1,27 @@
+TARGMODEL=	Posix
+TARGSHTYPE=	sh
+CPUS=		mips
+
+O=		o
+OS=		o
+
+AR=		ar
+ARFLAGS=	rvu
+
+AS=		cc -c
+ASFLAGS=	-mips2
+
+CC=		cc -c
+CFLAGS=		-w\
+		-O\
+		-Xcpluscomm\
+		-I$ROOT/Irix/mips/include\
+		-I$ROOT/include\
+
+LD=		cc
+LDFLAGS=
+
+SYSLIBS=	-lfpe
+
+YACC=		yacc
+YFLAGS=		-d

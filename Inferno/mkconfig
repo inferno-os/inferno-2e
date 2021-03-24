@@ -1,0 +1,24 @@
+#
+#	Set the following 3 variables.  The host system is the system where
+#	the software will be built; the target system is where it will run.
+#	They are almost always the same.
+
+#	On Nt systems, the ROOT path MUST be of the form `drive:/path'
+ROOT=$HOME/inf2.3
+
+#
+#	specify (host) OS type and (target) architecture.  The target OS type
+#	defaults to the same as the host, but both target parameters are
+#	overridden automatically when building native kernels.
+#
+SYSHOST=Inferno		# build system OS type (Hp, Inferno, Irix, Linux, Nt, Plan9, Solaris)
+OBJTYPE=$objtype		# target system object type (s800, mips, 386, arm, sparc)
+
+#
+#	no changes required beyond this point
+#
+SYSTARG=$SYSHOST	# target system OS type.  Native builds override this.
+OBJDIR=$SYSTARG/$OBJTYPE
+
+<$ROOT/mkfiles/mkhost-$SYSHOST			# variables appropriate for host system
+<$ROOT/mkfiles/mkfile-$SYSTARG-$OBJTYPE	# variables used to build target object type

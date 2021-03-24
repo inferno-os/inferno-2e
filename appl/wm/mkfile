@@ -1,0 +1,83 @@
+<../../mkconfig
+
+DIRS=\
+	brutus\
+
+TARG=\
+	about.dis\
+	avi.dis\
+	brutus.dis\
+	chat.dis\
+	coffee.dis\
+	colors.dis\
+	date.dis\
+	deb.dis\
+	debdata.dis\
+	debsrc.dis\
+	dir.dis\
+	edit.dis\
+	license.dis\
+	logon.dis\
+	memory.dis\
+	mpeg.dis\
+	msh.dis\
+	mwm.dis\
+	plumb.dis\
+	plumbing.dis\
+	pppcfg.dis\
+	qt.dis\
+	rmtdir.dis\
+	rt.dis\
+	scribe.dis\
+	sh.dis\
+	shortcut.dis\
+	stopwatch.dis\
+	task.dis\
+	telnet.dis\
+	view.dis\
+	winctl.dis\
+	wish.dis\
+	wm.dis\
+	wmgetauthinfo.dis\
+	azertykb.dis\
+	wmkb.dis\
+	wmmash.dis\
+	wmplay.dis\
+
+MODULES=\
+	plumbing.m\
+	wmdeb.m\
+
+SYSMODULES=\
+	bufio.m\
+	cci.m\
+	daytime.m\
+	debug.m\
+	draw.m\
+	filepat.m\
+	html.m\
+	keyring.m\
+	mpeg.m\
+	newns.m\
+	plumbmsg.m\
+	quicktime.m\
+	rand.m\
+	readdir.m\
+	riff.m\
+	security.m\
+	sh.m\
+	string.m\
+	sys.m\
+	tk.m\
+	version.m\
+	url.m\
+	webget.m\
+	wm.m\
+	wmlib.m\
+	wmset.m\
+	workdir.m\
+
+DISBIN=$ROOT/dis/wm
+
+<$ROOT/mkfiles/mkdis
+<$ROOT/mkfiles/mksubdirs

@@ -1,0 +1,28 @@
+<../../mkconfig
+
+OBJ=\
+	init.dis\
+
+all:V:	$OBJ
+install:V: all
+installall:V: all
+
+clean nuke:V:
+	rm -f *.dis *.sbl
+
+INCLD=\
+	-I$ROOT/module\
+	-I$ROOT/appl/svc/dossrv\
+
+%.dis:	%.b
+	limbo $INCLD -gw $stem.b
+
+%.s:	%.b
+	limbo $INCLD -w -G -S $stem.b
+
+ir%.dis: ../../appl/lib/ir%.b
+	limbo $INCLD -gw $prereq
+
+ir%.s: ../../appl/lib/ir%.b
+	limbo $INCLD -w -G -S $prereq
+

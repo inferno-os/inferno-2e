@@ -1,0 +1,25 @@
+<../../../mkconfig
+
+TARG=\
+	pkcs.dis\
+	rc4.dis\
+	ssl3.dis\
+	sslsession.dis\
+	x509.dis\
+
+MODULES=
+
+SYSMODULES= \
+	daytime.m\
+	keyring.m\
+	pkcs.m\
+	rc4.m\
+	security.m\
+	ssl3.m\
+	sslsession.m\
+	sys.m\
+	x509.m\
+
+DISBIN=$ROOT/dis/lib/crypt
+
+<$ROOT/mkfiles/mkdis

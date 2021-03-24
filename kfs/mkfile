@@ -1,0 +1,23 @@
+<../mkconfig
+
+LIB=libkfs.a
+
+OFILES= \
+	chk.$O \
+	console.$O \
+	dat.$O \
+	dentry.$O \
+	fcall.$O \
+	fs.$O \
+	fswren.$O \
+	iobuf.$O \
+	kcon.$O \
+	kfs.$O \
+	sub.$O \
+	uid.$O \
+
+HFILES= all.h fdat.h ffns.h lib.h
+
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE
+
+CFLAGS=		-DEMU $CFLAGS

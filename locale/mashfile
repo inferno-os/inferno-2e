@@ -1,0 +1,145 @@
+mk := `{ whatis make };
+if ( $"mk != 'load make; make;' )	{ load make };
+tk := `{ whatis tk };
+if ( $"tk != 'load tk; tk;' )		{ load tk };
+make -clear;
+
+lflags = -wg;
+
+localeBase = `{ pwd };
+locale = all_locales;
+
+fn lc {
+	limbo $lflags $args;
+};
+
+fn mk
+{
+	lc := $locale;
+	if ( ! $args ) { args = all_locales };
+	locale = (hd $args);
+	args = (tl $args);
+	case $locale {
+		all_locales =>
+			for ( l in $locales ) mk $l $args;
+		$locales => {
+			if ( ! $args ) { args = lib cmd };
+			while ( $args ) {
+				arg := (hd $args);
+				args = (tl $args);
+				case $arg {
+					lib => {
+						if ( $libs ) { mklib $libs };
+					};
+					cmd => {
+						if ( $cmds ) { mkcmd $cmds };
+					};
+					$libs => { mklib $arg };
+#					$cmds => { mkcmd $arg };
+					* => {
+						echo 'Don\'t know how to make ' $arg;
+					};
+				};
+			};
+		};
+		$libs => {
+			arg := $locale;
+			for ( locale in $locales ) {
+				mklib $arg;
+			};
+			mk $args;	# finish it off
+		};
+		$cmds => {
+			arg := $locale;
+			for ( locale in $locales ) {
+				mkcmd $arg;
+			};
+			mk $args;
+		};
+		* =>
+			echo 'don\'t know how to make ' $locale;
+	};
+	locale = $lc;
+};
+
+fn mklib
+{
+	# First add /appl/lib, to pick up any .m files that might be needed.
+	# In this case there aren't any, but this shows how to do it, in
+	# general.  Note the appl directory in $locale/appl/lib isn't needed.
+	# But maybe it is here to make automated setup for SD easier.
+	bind -c $locale/appl/lib $locale/appl/lib;
+	bind -a /appl/lib $locale/appl/lib;
+	# Now move the whole works to where we are, to avoid doing any cd's.
+	bind -a $locale/appl/lib $localeBase;
+	# Compile or do whatever is needed.  In this case, we leave any .dis
+	# files alongside the .b files, since to be used these .dis files have
+	# to be bound somewhere else, and this avoids having a lot of redundant
+	# dis file trees.
+	make $args;
+	unmount $localeBase;
+	unmount $locale/appl/lib;
+};
+
+fn mkcmd
+{
+	# This looks a lot like the lib case, so we could probably parameterize
+	# them in common code, probably requiring use of eval.
+	bind -c $locale/appl/cmd $locale/appl/cmd;
+	bind -a /appl/cmd $locale/appl/cmd;
+	bind -a $locale/appl/cmd $localeBase;
+	make $args;
+	unmount $localeBase;
+	unmount $locale/appl/cmd;
+};
+
+locales = fr_FR en_US;
+#	List of all dis files or targets to be built in appl/lib
+libs = i18n.locale.dis;
+#	List of all dis files or targets to be built in appl/cmd
+cmds = ;
+
+all :	{
+	for ( loc in $locales ) { mk $loc lib cmd };
+};
+
+*.dis :~ $1.b { lc $1.b };
+
+nuke nukeall_locales : nuke^$locales;
+
+nuke* :~ DUMMY {
+	if ( $1 != all_locales ) {
+		if ( $libs ) { rm $1/appl/lib/*.dis $1/appl/lib/*.sbl };
+		if ( $cmds ) { rm $1/appl/cmd/*.dis $1/appl/cmd/*.sbl };
+	};
+};
+
+DUMMY : {};
+
+fn setmenu
+{
+	btnlabel := (hd $args);
+	objs := (tl $args);
+	tk def menu $btnlabel;
+	for ( src in $objs ) {
+		command := 'for ( l in $locales ) mk $l' $src;
+		tk def item $btnlabel $src $"command;
+	};
+	menubar = ( $menubar :: $btnlabel );
+};
+
+#tk clear;
+tk def menu SetLocale;
+tk def item SetLocale All 'locale = all_locales';
+for ( loc in $locales ) {
+	command := 'locale = ' $loc;
+	tk def item SetLocale $loc $"command;
+};
+tk def menu Make;
+tk def item Make All 'lc = $locale; mk $locale; locale = $lc';
+tk def item Make Nuke 'make nuke$locale';
+menubar = SetLocale Make;
+
+if ( $libs ) { setmenu libs $libs };
+if ( $cmds ) { setmenu cmds $cmds };
+tk layout $menubar;

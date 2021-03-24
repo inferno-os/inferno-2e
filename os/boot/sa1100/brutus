@@ -1,0 +1,72 @@
+# Brutus board with Demon or StyxMon
+
+first
+	l
+	cache
+
+port
+	memcpy
+	atoi
+	print
+	portcons
+	malloc
+	qio
+	env
+	streamdev
+	iostream
+	gunzip		inflate crc
+	exec
+
+	statusbar
+	lineartrace
+	fadelogo	showimage putimage fade
+
+misc
+	main		archbrutus bpi portbpi
+	mmu
+	clock
+	kbdfuj
+
+link	
+	cmd
+	cmdport
+	cmdmisc		
+	zerostream
+	ttystream
+	flashstream	flash flashptab
+	bpistream
+	tmpstream	qio
+	etherstream	tftp bootp udp ether sapcm pcmbrutus
+	memstream
+	lcd		screen font7x8
+	bpicons
+	ttycons
+	screentest
+	cmdtouch	ucbtouch tcaldyn mcp
+	autoboot	maintmode setautoboot keyrelease
+	ethertdk
+	ether589
+	terminal
+
+lib
+	image
+	kern
+
+code
+	char *confverid = "a";
+
+	#include "../port/vmode.h"
+	Vmode default_vmode = {320,240,3,110,VMODE_COLOR};
+	int maxnarg = 64;
+	int maxnenv = 128;
+	int argbufsize = 512;	/* incl maxnarg*4 bytes for pointers */
+	int envbufsize = 1536;	/* incl maxnenv*4 bytes for pointers */
+	int savehimem = 2048;	/* argbufsize+envbufsize */
+
+	#include "../port/flash.h"
+	FlashMap flashmap[] = {
+		{ .base 0x0a000000 },
+		{ .base 0x08000000 },
+	};
+	int nflash = nelem(flashmap);
+

@@ -1,0 +1,84 @@
+# SWoRD timing values
+
+OSCHZ=3.6864MHz		# standard crystal value -- don't change this
+PPCR=5			# 133MHz CpuClock
+
+#SBANK_FLASH=0x4230
+	SBANK_FLASH_RT=0		# Non-burst ROM or FLASH EPROM
+	SBANK_FLASH_RBW=0		# 16-bits wide
+	SBANK_FLASH_RDF=120ns
+	SBANK_FLASH_RDN=58ns
+	SBANK_FLASH_RRR=58ns
+#SBANK_ROM=0x2018
+	SBANK_ROM_RT=0			# Non-burst ROM or FLASH EPROM
+	SBANK_ROM_RBW=0			# 16-bits wide
+	SBANK_ROM_RDF=75ns
+	SBANK_ROM_RDN=19ns
+	SBANK_ROM_RRR=38ns
+
+SBANK0=FLASH	# Acting as ROM
+SBANK1=FLASH
+SBANK2=ROM
+SBANK3=ROM
+
+#MDCNFG=0x0326991f
+	MDCNFG_DE=0xf			# banks 0,1,2,3
+	MDCNFG_CDB2=0			# CAS shift by cpuclock
+	MDCNFG_TRP=45ns
+	MDCNFG_TRASR=75ns
+	MDCNFG_TDL=15ns
+	MDCNFG_TDRI=32ms		# refresh time for all rows
+# 103 MHz timings
+#MDCAS=1111..11..11..11..11..11..11..11..11
+# 133 MHz timings
+MDCAS=11111...11...11...11...11...11...11...11...111
+
+memcfg { # unspecified
+	MDCNFG_ROWS=9
+};
+
+memcfg { # 4/8MB internal
+	MDCNFG_ROWS=10
+};
+
+memcfg { # unspecified
+	MDCNFG_ROWS=11
+};
+
+memcfg { # 16/32MB internal
+	MDCNFG_ROWS=12
+};
+
+memmap {
+	# virtual addr	  physical addr	    flags   description
+	#---------------- ----------------- ------- ----------------------
+        00000000-07ffffff c0000000-dfffffff  0,UCB3 cached/buffered DRAM
+	08000000-09ffffff 00000000-01ffffff  0,U3   static bank 0 (Flash)
+	0a000000-0bffffff 0a000000-0bffffff  0,U3   static bank 1 (TAD)
+	0c000000-0dffffff 10000000-11ffffff  0,U3   static bank 2 (?)
+	0e000000-0fffffff 18000000-19ffffff  0,U3   static bank 3 (?)
+	10000000-17ffffff c0000000-dfffffff  0,UC3  cached/unbuffered DRAM
+	18000000-1fffffff c0000000-dfffffff  0,UB3  uncached/buffered DRAM
+	20000000-dfffffff 20000000-dfffffff  0,U3   identity mapped I/O
+	e0000000-e3ffffff e0000000-e3ffffff  0,UCB3 zero bank (cache/buf)
+	e4000000-e7ffffff e0000000-e3ffffff  0,UC3  zero bank (cache)
+	e8000000-ffffffff 00000000-17ffffff  0,0    invalid	
+	# flag layout:
+	#	domain,flags/access
+	#	where domain=0-15
+	#	flags=U, C (cached), B (buffered)
+	#	access=0-3
+	# Note: the DRAM regions are currently ignored since they
+	# are mapped from available DRAM.   Basically, the monitor
+	# will ignore all mappings of the region c0000000-dfffffff
+};
+
+FLASHBASE=0x08000000	# Static bank 0
+
+GPDR=0x0c000000		# set GPIO 26 and 27 for output
+GAFR=0x00000000
+GPSR=0x08000000		# turn on GPIO 27 (LED D23, green)
+
+NOAUTO_ADDR=0x90040000	# check GPLR
+NOAUTO_MASK=0x00100000  # check GPIO20 (S5 - Debug switch)
+NOAUTO_VAL=0x00100000	# if set, disable autoboot

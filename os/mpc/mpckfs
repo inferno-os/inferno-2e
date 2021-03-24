@@ -1,0 +1,105 @@
+dev
+	root
+	cons	archfads
+	mnt
+	pipe
+	prog
+	rtc
+	srv
+	ssl
+
+	draw
+
+	ip		bootp ip ipaux media netlog ppp compress
+	ether		netif
+	uart
+	flash
+
+	ftl
+	kfs		chk kcon console dat dentry fcall fs fswren iobuf kfs sub uid
+	kprof
+
+ip
+	tcp
+	udp
+	il
+	gre
+	pktifc
+
+lib
+	interp
+	tk
+	prefab
+	image
+	memlayer
+	memimage
+	keyring
+	kern
+	crypt
+
+link
+	etherscc
+	flashamd
+
+mod
+	sys
+	draw
+	prefab
+	tk
+	keyring
+
+port
+	alarm
+	alloc
+	chan
+	dbg
+	dev
+	dial
+	dis
+	discall
+	exception
+	exportfs
+	inferno
+	latin1
+	ns
+	pgrp
+	print
+	proc
+	qio
+	qlock
+	styx
+	sysfile
+	taslock
+	utils
+	xalloc
+
+code
+	int cflag = 1;
+	int consoleprint = 1;
+	int pckdebug = 0;
+	int panicreset = 0;
+	int kernel_pool_pcnt = 10;
+	int main_pool_pcnt = 40;
+	int heap_pool_pcnt = 20;
+	int image_pool_pcnt = 40;
+
+init
+	mpcinit
+
+root
+	/chan
+	/dev
+	/dis
+	/n
+	/net
+	/nvfs /
+	/prog
+	/icons
+	/dev/draw
+	/osinit.dis
+	/dis/lib/ir.dis
+	/dis/lib/auth.dis
+	/dis/lib/ssl.dis
+	/n/local /
+	/icons/phone.bit
+	/icons/lucent.bit

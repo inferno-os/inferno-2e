@@ -1,0 +1,112 @@
+<../../../mkconfig
+
+#Configurable parameters
+
+CONF=brutus		#default configuration
+CONFLIST=brutus sword shannon
+
+SYSTARG=$OSTARG
+OBJTYPE=arm
+INSTALLDIR=$ROOT/Inferno/$OBJTYPE/bin	#path of directory where kernel is installed
+
+#end configurable parameters
+
+<$ROOT/mkfiles/mkfile-$SYSTARG-$OBJTYPE	#set vars based on target system
+
+<| $SHELLNAME ../port/mkdevlist $CONF	#sets $IP, $DEVS, $ETHERS, $VGAS, $PORT, $MISC, $LIBS, $MODS, $OTHERS
+
+AIFKTZERO=0x8080
+KTZERO=0x8020
+#MONZERO=0x080e1000
+#MONZERO=0x08004000
+#MONZERO=0x0a01c000
+MONZERO=0x08000000
+
+OBJ=\
+	$FIRST\
+	div.$O\
+	$IP\
+	$DEVS\
+	$ETHERS\
+	$LINKS\
+	$PORT\
+	$MISC\
+	$OTHERS\
+
+LIBDIRS=$LIBS
+LIBNAMES=${LIBS:%=lib%.a}
+
+HFILES=\
+	mem.h\
+	armv4.h\
+	dat.h\
+	fns.h\
+	io.h\
+
+CFLAGS=-w -I$ROOT/Inferno/$OBJTYPE/include -I$ROOT/include -I$ROOT/interp
+KERNDATE=`{$NDATE}
+
+default:V: sb$CONF.aif
+
+one:V: sb$CONF.aif sm$CONF.bin
+
+install:V: 	$INSTALLDIR/sb$CONF.aif $INSTALLDIR/sm$CONF.bin $INSTALLDIR/sb$CONF.raw
+
+$INSTALLDIR/%: %
+	rm -f $INSTALLDIR/$stem && cp $stem $INSTALLDIR/$stem
+
+sb$CONF: $OBJ $CONF.c $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD -n -o $target -T$KTZERO -R1 -l $OBJ $CONF.$O $LIBFILES
+
+sb$CONF.list: $OBJ $CONF.c $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD -a -o /dev/null -T$KTZERO -R1 -l $OBJ $CONF.$O $LIBFILES > $target
+
+sb$CONF.aif: $OBJ $CONF.c $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD -o $target -H1 -T$AIFKTZERO -R1 -l $OBJ $CONF.$O $LIBFILES
+
+sb$CONF.real:	$OBJ $CONF.c $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD -o $target -T$KTZERO -R1 -l $OBJ $CONF.$O $LIBFILES
+	$KSIZE $target
+
+# "raw" version of kernel for binary comparison testing
+sb$CONF.raw: $OBJ $CONF.c $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='0 $CONF.c
+	$LD -s -n -o $target -T$KTZERO -R1 -l $OBJ $CONF.$O $LIBFILES
+
+nm:V: sb$CONF.real
+
+aif:V:	sb$CONF.aif
+
+STYXOBJ = \
+	lstyxmon.$O \
+	styx.$O \
+	export.$O \
+	styxmon.$O \
+	monconf.$O \
+	mmap.$O \
+	memcpy.$O \
+	memset.$O \
+
+sm$CONF.bin: $STYXOBJ $CONF.mcf mkfile
+	$LD -s -o $target -H0 -T$MONZERO -R4 -l $STYXOBJ $LIBFILES
+	# dd if=sm$CONF of=$target bs=4 skip=8
+	monconf $target < $CONF.mcf
+
+sm$CONF.list: $STYXOBJ
+	$LD -a -H0 -T$MONZERO -R4 -l $STYXOBJ $LIBFILES > $target
+
+sm$CONF:
+	$LD -o $target -T$MONZERO -R4 -l $STYXOBJ $LIBFILES
+
+<../port/portmkfile
+
+%.$O:	../net/%.c
+	$CC $CFLAGS -I. ../net/$stem.c
+
+%.$O:	../styxmon/%.c
+	$CC $CFLAGS -I. ../styxmon/$stem.c
+

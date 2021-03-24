@@ -1,0 +1,40 @@
+<../mkconfig
+
+LIB=lib9.a
+
+#
+# files used by all models
+#
+COMMONFILES=\
+	doprint.$O\
+	icossin.$O\
+	icossin2.$O\
+	print.$O\
+	qsort.$O\
+	runestrlen.$O\
+	strtoll.$O\
+	rune.$O\
+#
+# files used by most models.  these are added to TARGFILES in some
+# model-specific mkfiles included below
+#
+IMPORTFILES=\
+	charstod.$O\
+	create.$O\
+	dirwstat.$O\
+	exits.$O\
+	getfields.$O\
+	pow10.$O\
+	seek.$O\
+	strdup.$O\
+	utflen.$O\
+	utfrrune.$O\
+	utfrune.$O\
+
+<mkfile-$TARGMODEL
+
+OFILES=$COMMONFILES $TARGFILES
+
+HFILES=$ROOT/include/lib9.h
+
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE

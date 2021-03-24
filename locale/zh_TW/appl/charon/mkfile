@@ -1,0 +1,15 @@
+<../../../../mkconfig
+
+LOCALE_ROOT=$ROOT/locale/zh_TW
+COMPFLAG=-I$ROOT/appl/charon -I$LOCALE_ROOT/module
+TARG=\
+	charon_code.dis\
+	charon_gui.dis\
+
+MODULES=\
+
+SYSMODULES=\
+
+DISBIN=$ROOT/dis/charon
+
+<../../mkdis

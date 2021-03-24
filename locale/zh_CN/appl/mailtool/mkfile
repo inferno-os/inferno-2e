@@ -1,0 +1,16 @@
+<../../../../mkconfig
+
+LOCALE_ROOT=$ROOT/locale/zh_CN
+COMPFLAG=-I$ROOT/appl/mailtool -I$LOCALE_ROOT/module
+TARG=\
+	mailtool_code.dis\
+	mailtool_gui.dis\
+	mailtool_tk.dis\
+
+MODULES=\
+
+SYSMODULES=\
+
+DISBIN=$ROOT/dis/mailtool
+
+<../../mkdis

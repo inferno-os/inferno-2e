@@ -1,0 +1,29 @@
+make -clear;
+
+lflags = -wg;
+
+fn lc {
+	limbo $lflags $args;
+};
+
+core = styxreply.dis styx.dis dev.dis devXXX.dis dev123.dis devXYZ.dis;
+mods = styx.m dev.m;
+styxlib = /dis/lib/styx;
+styxmod = /module;
+styxlibs = $styxlib/$core;
+styxmods = $styxmod/$mods;
+
+*.dis			:~ $1.b { lc $1.b };
+$styxlib/*.dis	:~ $1.dis { cp $1.dis $styxlib };
+$styxmod/*.m	:~ $1.m { cp $1.m $styxmod };
+/dis/*.dis		:~ $1.dis { cp $1.dis /dis };
+/dis/lib/*.dis	:~ $1.dis { cp $1.dis /dis/lib };
+
+$core : $mods;
+
+
+insdis : $styxlibs {};
+insmods: $styxmods {};
+
+all : $core {};
+install : insdis insmods {};

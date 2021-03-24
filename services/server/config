@@ -1,0 +1,21 @@
+#
+# Format:
+#
+# - restart-times service-type port name - connection type - daemon command - command arguments -
+# where:
+#
+#
+# restart-times is the number of restarts allowed before alarming
+# service-type is S for spawner where srv does the announce and listen
+#                 M for monolith, where srv does nothing but spawn the and watchdog if asked
+
+10 S infsigner       tcp /dis/lib/signer.dis 
+10 S infcsigner      tcp /dis/lib/countersigner.dis
+10 S inflogin        tcp /dis/lib/logind.dis         
+10 S styx            tcp /dis/lib/styxd.dis noauth nossl clear sha md5 rc4
+10 S rstyx           tcp /dis/lib/rstyxd.dis noauth nossl clear sha md5 rc4
+10 S infdb           tcp /dis/lib/dbsrv.dis  noauth nossl clear sha md5 rc4
+10 S virgil          udp /dis/lib/virgild.dis
+#10 M 67              udp /dis/lib/bootp.dis
+#10 M 69              udp /dis/lib/tftpd.dis
+

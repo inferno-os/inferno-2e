@@ -1,0 +1,8 @@
+#define	REGARG	69
+
+TEXT	umult(SB), $-4
+
+	MOVL	4(FP), R70
+	MULMUL	R70, R(REGARG), R71
+	MULUL	R70, R(REGARG)
+	RET

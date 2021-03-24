@@ -1,0 +1,14 @@
+homeurl=http://www.lucent-inferno.com
+
+defaultwidth=640
+defaultheight=380
+x=0
+y=30
+docookies=1
+saveauthinfo=1
+
+devssl=0
+usessl=v2
+usessl=v3
+
+nthreads=7

@@ -1,0 +1,19 @@
+<../../../mkconfig
+
+TARG=\
+	ispservice.dis\
+	ipservice.dis\
+	localservice.dis\
+	cs.dis
+
+MODULES=\
+	cs.m\
+
+SYSMODULES=\
+	ipsrv.m\
+	qidcmp.m\
+	rtoken.m\
+
+DISBIN=$ROOT/dis/svc/cs
+
+<$ROOT/mkfiles/mkdis

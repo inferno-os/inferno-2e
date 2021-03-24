@@ -1,0 +1,19 @@
+all:V:	all-$SHELLTYPE
+install:V: install-$SHELLTYPE
+uninstall:V: uninstall-$SHELLTYPE
+nuke:V: nuke-$SHELLTYPE
+clean:V: clean-$SHELLTYPE
+
+%-rc %-nt:QV:
+	for (j in $DIRS)
+	{
+		echo '@{builtin cd' $j '; mk $MKFLAGS $stem}'
+		@{builtin cd $j; mk $MKFLAGS $stem}
+	}
+
+%-sh:QV:
+	for j in $DIRS
+	do
+		echo "(cd $j; mk $MKFLAGS $stem)"
+		(cd $j; mk $MKFLAGS $stem)
+	done

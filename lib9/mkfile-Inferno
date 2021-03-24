@@ -1,0 +1,2 @@
+TARGFILES=errstr-Inferno.$O\
+	log-Inferno.$O\

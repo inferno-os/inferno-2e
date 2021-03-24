@@ -1,0 +1,142 @@
+abday|"Sun"||Standard abbreviations for days of the week
+|"Mon"||
+|"Tue"||
+|"Wed"||
+|"Thu"||
+|"Fri"||
+|"Sat"||
+day|"Sunday"||Standard day names
+|"Monday"||
+|"Tuesday"||
+|"Wednesday"||
+|"Thursday"||
+|"Friday"||
+|"Saturday"||
+abmon|"Jan"||Standard abbreviations for months
+|"Feb"||
+|"Mar"||
+|"Apr"||
+|"May"||
+|"Jun"||
+|"Jul"||
+|"Aug"||
+|"Sep"||
+|"Oct"||
+|"Nov"||
+|"Dec"||
+mon|"January"||Full names of the months
+|"February"||
+|"March"||
+|"April"||
+|"May"||
+|"June"||
+|"July"||
+|"August"||
+|"September"||
+|"October"||
+|"November"||
+|"December"||
+
+|||Formats for various date and time strings.  In forming these formats,
+|||the following substitutions are available:
+
+|||%%	Gives a single %
+|||%a	Abbreviated day name
+|||%A	Full day name
+|||%b	Abbreviated month name
+|||%B	Full month name
+|||%c	Date and time representation specified by d_t_fmt
+|||%C	Century number (2 digits)
+|||%d	Day of month, range 1-31 (2 digits)
+|||%D	Date as %m/%d/%y
+|||%e	Day of month, range 1-31 (single digits preceded by space)
+|||%h	Same as %b
+|||%H	Hour, range 0-23 (2 digits)
+|||%I	Hour, range 1-12 (2 digits)
+|||%j	Day of year, range 1-366 (2 or 3 digits)
+|||%k	Hour, range 0-23 (single digits preceded by space)
+|||$l	Hour, range 1-12 (single digits preceded by space)
+|||%m	Month number, range 1-12 (2 digits)
+|||%M	Minute, range 0-59 (2 digits)
+|||%n	Newline is inserted
+|||%p	Locale equivalent of a.m. or p.m.
+|||%r	Time in 12-hour format with %p
+|||%R	Time as %H:%M
+|||%S	Seconds, range 0-59 (2 digits)
+|||%t	Tab is inserted
+|||%T	Time as %H:%M:%S
+|||%u	Weekday as a number, range 1-7 (1 is Sunday)
+|||%U	Week number of year, range 0-53 (Sunday is first day of week 1)
+|||%V	Week number of year, range 1-53 (Monday is first day of week,
+|||	week 1 has >= 4 days in new year, else week 53
+|||%w	Weekday number, range 0-6 (Sunday is 0)
+|||%W	Week number of year, range 0-53 (Monday is first day of week 1)
+|||%x	Date using the format d_fmt
+|||%X	Time using the format t_tmt (24-hour) or t12_fmt (12-hour)
+|||%y	Year within century, range 0-99 (2 digit)
+|||%Y	Year (4 digits)
+|||%Z	Time zone name or abbreviation, if any
+d_t_fmt|"%a %b %e %T %Z %Y"||for equivalent of "Fri Feb  5 13:25:37 EST 1999"
+d_fmt|"%a, %b %e %Y"||Long date format ("Fri, Feb  5 1999")
+s_d_fmt|"%m/%d/%y"||Short date format ("02/05/99")
+t_fmt|"%H:%M:%S"||Long 24-hour format ("06:35:05")
+t12_fmt|"%l:%M:%S %p"||Long 12-hour format ("3:08:36 pm") (Same as t_fmt if 12-hour format not used)
+s_t_fmt|"%H:%M"||Short 24-hour format ("14:30")
+s_t12_fmt = "%l:%M %p"||Short 12-hour format ("3:08 pm") (Same as t_t_fmt if 12-hour format not used)
+
+twelveHour|1||1 => use 12-hour format, 0 => use 24-hour format
+
+am_pm|"am"||used in 12-hour format for morning
+|"pm"||used in 12-hour format for afternoon
+
+firstday|0||0 => Sunday is considered first day of week, 1 => Monday, etc.)
+
+decimal_point|"."||Character separating whole and fractional parts of number
+thousands_sep|","||Character separating digit groups in printed numbers
+grouping|3||Number of digits in a digit group in printed numbers
+
+int_curr_symbol|"USD "||String used to represent local currency units outside of the locale
+
+currency_symbol|"$"||String used to represent local currency units within the locale
+
+mon_decimal_point|"."||String that separates whole currency units from fractional units
+
+mon_thousands_sep|","||String that separates groups of digits of currency amounts
+
+mon_grouping|3||Number of digits in a digit group in currency amounts
+
+positive_sign|""||Symbol used for positive currency amounts
+
+negative_sign|"-"||Symbol used for negative currency amounts
+
+int_frac_digits|2||Number of fractional digits to display for currency amounts (outside of this locale)
+
+frac_digits|2||Number of fractional digits to display for currency amounts (within this locale)
+
+|||In the following, a range of characters adjacent in the encoding sequence
+|||is represented by the first character in the range, a hyphen, and the last.
+|||The construction \uNNNN represents the character encoded by the 4 hexadecimal
+|||digits NNNN.
+upper|"A-ZÀ-ÖØ-Þ"||Uppercase letters.
+lower|"a-zà-öø-þ"||Lowercase letters.
+space|"\t\n\v\u000c\r "||Codes representing horizontal or vertical space.
+cntrl|"\u0000-\u001f\u007f\u0080-\u009f"||Control characters.
+graph|"!-~¡-ÿ"||Codes which lay down ink.
+print|" -~ -ÿ"||Codes representing characters with non-zero widths
+punct|"!-/:-@[-`{-~¡-»¿×÷"||graphics except alphanumerics
+digit|"0-9"||Decimal digits
+xdigit|"0-9a-fA-F"||Legal hexadecimal digits
+blank|" \t"||Horizontal motion within line (no ink)
+
+equiv|"aáàâãäå"||Groups of characters that sort to the same place (only lowercase characters needed)
+|"cç"||
+|"eéèêë"||
+|"iìíîï"||
+|"nñ"||
+|"oóòôõö"||
+|"uúùûü"||
+|"yýÿ"||Add more groups if necessary.
+
+dontcare|"\u0000-/:-@[-`{-~"||Character not considered when sort (except at very last stage)
+
+phonepattern|"(###)###-####"||Usuall representation of a phone number (# where a digit should be substituted)

@@ -1,0 +1,23 @@
+TARGMODEL=	Inferno
+TARGSHTYPE=	rc
+CPUS=		mips 386
+
+O=		8
+OS=		v851ok0
+
+AR=		ar
+ARFLAGS=	vu
+
+AS=		8a
+ASFLAGS=
+
+CC=		8c
+CFLAGS=		-w -I$ROOT/Inferno/386/include -I$ROOT/include
+
+LD=		8l
+LDFLAGS=
+
+SYSLIBS=	-lc
+
+YACC=		yacc
+YFLAGS=		-d

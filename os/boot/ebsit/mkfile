@@ -1,0 +1,80 @@
+<../../../mkconfig
+
+#Configurable parameters
+
+CONF=ebsit		#default configuration
+CONFLIST=ebsit
+
+SYSTARG=$OSTARG
+OBJTYPE=arm
+INSTALLDIR=$ROOT/Inferno/$OBJTYPE/bin	#path of directory where kernel is installed
+
+#end configurable parameters
+
+<$ROOT/mkfiles/mkfile-$SYSTARG-$OBJTYPE	#set vars based on target system
+
+<| $SHELLNAME ../port/mkdevlist $CONF	#sets $IP, $DEVS, $ETHERS, $VGAS, $PORT, $MISC, $LIBS, $MODS, $OTHERS
+
+AIFKTZERO=0x8080
+KTZERO=0x8020
+#MONZERO=0x08004000
+MONZERO=0x08000000
+
+OBJ=\
+	$FIRST\
+	div.$O\
+	$IP\
+	$DEVS\
+	$ETHERS\
+	$LINKS\
+	$PORT\
+	$MISC\
+	$OTHERS\
+
+LIBNAMES=${LIBS:%=lib%.a}
+
+HFILES=\
+	mem.h\
+	armv4.h\
+	dat.h\
+	fns.h\
+	io.h\
+
+CFLAGS=-w -I$ROOT/Inferno/$OBJTYPE/include -I$ROOT/include -I$ROOT/interp
+KERNDATE=`{$NDATE}
+
+default:V: sb$CONF.aif
+
+one:V: sb$CONF.aif sm$CONF.bin
+
+install:V: 	$INSTALLDIR/sb$CONF.aif 
+
+$INSTALLDIR/%: %
+	rm -f $INSTALLDIR/$stem && cp $stem $INSTALLDIR/$stem
+
+sb$CONF: $OBJ $CONF.c $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD -n -o $target -T$KTZERO -R1 -l $OBJ $CONF.$O $LIBFILES
+
+sb$CONF.list: $OBJ $CONF.c $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD -a -o /dev/null -T$KTZERO -R1 -l $OBJ $CONF.$O $LIBFILES > $target
+
+sb$CONF.aif: $OBJ $CONF.c $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD -o $target -H1 -T$AIFKTZERO -R1 -l $OBJ $CONF.$O $LIBFILES
+
+sb$CONF.real:	$OBJ $CONF.c $LIBNAMES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD -o $target -T$KTZERO -R1 -l $OBJ $CONF.$O $LIBFILES
+	$KSIZE $target
+
+nm:V: sb$CONF.real
+
+aif:V:	sb$CONF.aif
+
+<../port/portmkfile
+
+%.$O:	../net/%.c
+	$CC $CFLAGS -I. ../net/$stem.c
+

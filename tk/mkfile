@@ -1,0 +1,43 @@
+<../mkconfig
+
+LIB=libtk.a
+
+OFILES=\
+	buton.$O\
+	canvs.$O\
+	canvu.$O\
+	carcs.$O\
+	cbits.$O\
+	cimag.$O\
+	cline.$O\
+	coval.$O\
+	cpoly.$O\
+	crect.$O\
+	ctext.$O\
+	cwind.$O\
+	ebind.$O\
+	entry.$O\
+	frame.$O\
+	image.$O\
+	label.$O\
+	listb.$O\
+	menus.$O\
+	packr.$O\
+	parse.$O\
+	scale.$O\
+	scrol.$O\
+	textu.$O\
+	textw.$O\
+	tindx.$O\
+	tmark.$O\
+	ttags.$O\
+	twind.$O\
+	utils.$O\
+	windw.$O\
+	xdata.$O\
+
+HFILES=\
+	$ROOT/include/tk.h\
+	$ROOT/include/image.h\
+	
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE

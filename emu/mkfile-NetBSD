@@ -1,0 +1,11 @@
+#
+#	architecture-dependent files for NetBSD
+#
+
+TARGFILES=devfs-NetBSD.$O\
+	devip.$O\
+	ipif-posix.$O\
+	os-NetBSD.$O\
+	win-x11.$O\
+	srv.$O\
+

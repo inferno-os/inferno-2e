@@ -1,0 +1,20 @@
+<../../../mkconfig
+
+TARG=\
+	styx.dis\
+	styxreply.dis\
+	dev.dis\
+	devXXX.dis\
+	devXYZ.dis\
+	dev123.dis\
+
+MODULES=\
+	styx.m\
+	dev.m\
+
+SYSMODULES= 
+
+DISBIN=$ROOT/dis/lib/styx
+
+<$ROOT/mkfiles/mkdis
+LIMBOFLAGS=-I$ROOT/appl/lib/styx  

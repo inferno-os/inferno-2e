@@ -1,0 +1,13 @@
+<../mkconfig
+
+LIB=libkeyring.a
+
+OFILES=\
+	egalg.$O
+
+HFILES=\
+	$ROOT/include/libcrypt.h\
+	$ROOT/interp/runt.h\
+	keys.h\
+
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE

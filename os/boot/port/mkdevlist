@@ -1,0 +1,60 @@
+$AWK '
+BEGIN{
+		var["dev"] = "DEVS=";
+		var["vga"] = "VGAS=";
+		var["ether"] = "ETHERS=";
+		var["first"] = "FIRST=";
+		var["init"] = "INIT=";
+		var["ip"] = "IP=";
+		var["port"] = "PORT=";
+		var["misc"] = "MISC=";
+		var["mod"] = "MODS=";
+		var["lib"] = "LIBS=";
+		var["link"] = "LINKS=";
+}
+/^$/{		next;
+}
+/^#/{		next;
+}
+/^(code|dev|ether|first|init|ip|lib|link|mod|misc|port|root|vga)/{
+		if(current != "")
+			print current;
+		current = var[$1];
+		type = $1;
+		next;
+}
+/^[^ 	]/	{
+		if(current != "")
+			print current;
+		current = "";
+}
+current && /^[ 	]/{
+		if(type == "dev")
+			file = "dev" $1;
+		else
+			file = $1;
+		if(have[file] == 0){
+			if(type == "lib" || type == "init")
+				current = current " " file;
+			else
+				current = current " " file "'.$O'";
+			have[file]++;
+		}
+		for(i = 2; i <= NF; i++){
+			if($i !~ "[+=-].*"){
+				if(have[$i] == 0){
+					others[$i]++;
+					have[$i]++;
+				}
+			}
+		}
+		next;
+}
+END{
+		if(current != "")
+			print current;
+		for(i in others)
+			x = x " " i "'.$O' ";
+		if(x)
+			printf("OTHERS=%s\n", x);
+}' $*

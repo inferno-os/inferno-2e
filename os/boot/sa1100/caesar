@@ -1,0 +1,64 @@
+# Caesar board with our modified Demon monitor
+
+first
+	l
+	mmureg
+	cacheflush
+
+port
+	print
+	portcons
+	malloc0
+	env
+	streamdev
+	iostream
+	gunzip		inflate crc
+	exec
+
+	statusbar
+	lineartrace
+	fadelogo	showimage putimage fade
+
+misc
+	main		archcaesar bootbpi
+	mmu
+	clock
+	kbdfuj
+
+link	
+	cmd
+	cmdport
+	cmdmisc		
+	bpi		portbpi
+	zerostream
+	ttystream
+	flashstream	flash flashptab
+	bpistream
+	memstream
+	lcd		screen font8x8
+	demoncons
+	screentest
+	cmdtouch	ucbtouch tcaldyn mcp
+	autoboot	maintmode autotog keyrelease
+
+lib
+	image
+	kern
+
+code
+	char *confverid = "a";
+
+	#include "../port/vmode.h"
+	Vmode default_vmode = {640,480,3,100,VMODE_TFT};
+	int maxnarg = 64;
+	int maxnenv = 128;
+	int argbufsize = 512;	/* incl maxnarg*4 bytes for pointers */
+	int envbufsize = 1536;	/* incl maxnenv*4 bytes for pointers */
+	int savehimem = 2048;	/* argbufsize+envbufsize */
+
+	#include "../port/flash.h"
+	FlashMap flashmap[] = {
+		{ .base 0x08000000 },
+	};
+	int nflash = nelem(flashmap);
+

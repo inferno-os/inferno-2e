@@ -1,0 +1,124 @@
+dev
+	root
+	cons		archrpcg
+	mnt
+	pipe
+	prog
+	rtc
+	srv
+	ssl
+	draw
+
+	ip	bootp ip ipaux iproute arp netlog ptclbsum iprouter plan9 nullmedium pktmedium
+	ether netif netaux ethermedium
+
+	uart
+	flash
+	ftl
+	kfs		chk kcon console dat dentry fcall fs fswren iobuf kfs sub uid
+#	dbg		portbreak powerbreak
+
+	i2c	i2c
+
+ip
+#	il
+	tcp
+	udp
+#	rudp
+#	igmp
+	ipifc
+	icmp
+	ipmux
+
+lib
+	interp
+	tk
+	prefab
+	image
+	memlayer
+	memimage
+	keyring
+	kern
+	crypt
+
+link
+	etherscc
+	flashamd
+	pppmedium ppp compress
+
+mod
+	sys
+	draw
+	prefab
+	tk
+	keyring
+
+port
+	alarm
+	alloc
+	chan
+	dbg
+	dev
+	dial
+	dis
+	discall
+	exception
+	exportfs
+	inferno
+	latin1
+	ns
+	pgrp
+	print
+	proc
+	qio
+	qlock
+	styx
+	sysfile
+	taslock
+	utils
+	xalloc
+
+code
+	int cflag = 1;
+	int consoleprint = 1;
+	int remotedebug = 0;
+	int pckdebug = 0;
+	int panicreset = 0;
+	int kernel_pool_pcnt = 10;
+	int main_pool_pcnt = 40;
+	int heap_pool_pcnt = 20;
+	int image_pool_pcnt = 40;
+
+init
+	mpcinit
+
+root
+	/chan
+	/dev
+	/dis
+	/n
+	/n/local /
+	/n/remote /
+	/net
+	/nvfs /
+	/prog
+	/icons
+	/dev/draw
+	/osinit.dis
+
+# For development work:
+	/dis/sh.dis
+	/dis/ls.dis
+	/dis/cat.dis
+	/dis/bind.dis
+	/dis/mount.dis
+	/dis/imount.dis
+	/dis/pwd.dis
+	/dis/echo.dis
+	/dis/cd.dis
+	/dis/cp.dis
+	/dis/ps.dis
+	/dis/lib/readdir.dis
+	/dis/lib/workdir.dis
+	/dis/lib/auth.dis
+	/dis/lib/ssl.dis

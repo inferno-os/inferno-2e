@@ -1,0 +1,7 @@
+sysname = `{ cat /dev/sysname };
+user = `{ cat  /dev/user };
+home = /usr/$user;
+load tk;
+tk taskbar 'sboot console' > /dev/null;
+cat /n/rdbg/cons &
+while(1) { cat > /n/rdbg/cons; echo '' > /n/rdbg/cons; };

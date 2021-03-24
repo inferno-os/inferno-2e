@@ -1,0 +1,213 @@
+# mashinit for Inferno DDK
+
+# defaults:
+serport=/dev/eia0;
+plat=brutus;
+rmnt=/n/rdbg;
+bindir=/Inferno/arm/bin;
+bps=38400;
+consbps=38400;
+
+# available selections:
+platforms=sword brutus shannon shandev;
+serports=/dev/eia0 /dev/eia1 /dev/eia2 /dev/eia3 \
+	/dev/eia4 /dev/eia5 /dev/eia6 /dev/eia7;
+bpsrates=9600 19200 38400 57600 76800 115200 230400;
+
+sbcons=;
+mounted=;
+rbps=9600;
+
+# add pulldown menus to select serial port
+# add pulldown menus to select platform
+# make pulldown menus show current selection
+# (have platforms=  and serports= at top and iterate)
+# (use separate function for creating buttons for each platform,
+# which calls the platform generic functions for button setup)
+# change the title to reflect the serial port and platform selected
+# perhaps add the speed as well
+#	sword: /dev/eia3 9600bps
+
+fn sb {
+	echo $args > $rmnt/cons;
+	if(!$sbcons) cat $rmnt/ctl;
+};
+
+fn sbcons {
+	sbcons=1;
+	echo 'wm/wmmash / / catcons '$rmnt/cons' &' | sh > /dev/null;
+};
+
+fn mdbcons {
+	bind -r mdbcons /lib/mashinit;
+	echo 'wm/wmmash&' | sh > /dev/null;
+};
+
+fn sercons {
+	unmount /n/rdbg;
+	sleep 1;
+	echo b(hd $args) > $serport^ctl;
+	echo 'wm/wmmash / / catcons '$serport' &' | sh > /dev/null;
+};
+
+fn bsercons {
+	tk notice 'close all sboot and mdb windows!';
+	echo b (tl $args) > /n/rdbg/cons;
+	sercons (hd $args);
+};
+
+fn sbcprc {
+	sb 'consoleprint='^(hd $args); 
+	sb 'redirectconsole='^(hd tl $args);
+};
+
+fn unmount_rdbg {
+	echo unmount $rmnt;
+	unmount $rmnt;
+	getopencount;
+	while($r != 0) {
+		tk notice $serport' still mounted (close all sboot and mdb windows)';
+		getopencount;
+	};
+	sbcons=;
+	mounted=;
+};
+
+fn mount_rdbg {
+	echo b$rbps > $serport^ctl;
+	echo mount -A $serport $rmnt;
+	mounted=`{status mount -A $serport $rmnt};
+	cat $rmnt/ctl;
+	if($mounted) if($rbps != $bps) {
+		echo b$bps > $rmnt/ctl;
+		unmount_rdbg;
+		rbps=$bps;
+		mount_rdbg;
+	};
+};
+
+fn getopencount {
+	s=`{cat $serport^stat};
+	while(hd $s != opens) s=(tl tl $s);
+	r=(hd tl $s);
+};
+
+fn setbps {
+	bps=(hd $args);
+	if($mounted) if($rbps != $bps) {
+		echo b$bps > $rmnt/ctl;
+		rbps=$bps;
+		unmount_rdbg;
+		mount_rdbg;
+	};
+	layout;
+};
+
+load tk;
+
+fn menu_allplat {
+	tk def button mount_styxmon 'mount_rdbg; layout';
+	tk def button unmount 'echo b9600 > '$rmnt'/ctl; rbps=9600; unmount_rdbg; layout';
+	tk def button sboot 'echo E > '$rmnt'/ctl; sbcons; layout';
+	tk def button mdb 'mdbcons';
+	tk def button reset 'echo r1 > '$rmnt'/ctl; rbps=9600; unmount_rdbg; layout';
+
+	tk def menu bps;
+	i=$bpsrates;
+	while($i) {
+		tk def item bps (hd $i) 'setbps '^(hd $i);
+		i=(tl $i);
+	};
+
+	tk def menu load;
+	tk def item load config 'cp config '$rmnt'/flash0config';
+	tk def item load logo 'cp logo.bit '$rmnt'/flash0logo';
+	tk def item load sboot 'cp '$bindir'/sb'$plat'.aif '$rmnt'/flash0sboot';
+	tk def item load styxmon 'cp '$bindir'/sm'$plat'.bin '$rmnt'/flash0styxmon';
+
+	# tk def item load styxmon2 'cp '$bindir'/sm'$plat'.bin '$rmnt'/flash0logo';
+
+	tk def menu boot;
+	tk def item boot $bindir'/sb'$plat'.aif' 'cp '$bindir'/sb'$plat'.aif '$rmnt'/boot; sbcons; layout';
+	tk def item boot $bindir'/i'$plat'.aif' 'cp '$bindir'/i'$plat'.aif '$rmnt'/boot; sercons $consbps';
+
+	tk def menu test;
+
+	# tk def item test alternate_styxmon 'echo r0x4000 > '$rmnt'/ctl; unmount_rdbg';
+
+	tk def menu platform;
+	i=$platforms;
+	while($i) {
+		tk def item platform (hd $i) 'plat='^(hd $i)^'; refresh';
+		i=(tl $i);
+	};
+
+	tk def menu serial_port;
+	i=$serports;
+	while($i) {
+		tk def item serial_port (hd $i) 'serport='^(hd $i)^'; refresh';
+		i=(tl $i);
+	};
+};
+
+
+# Customizations for various platforms:
+
+fn menu_sword {
+	tk def item load kern 'cp '$bindir'/i'$plat'.gz '$rmnt'/flash0kern';
+	tk def item load fs 'cp '$bindir'/fs.gz '$rmnt'/tmp; sb c/u T! F!fs';
+	tk def item test kern 'sbcprc 0 0; sb b F!kern';
+	tk def item test kern_cprint 'sbcprc 1 0; sb b F!kern';
+	tk def item test kern_redir 'sbcprc 0 1; bsercons $consbps F!kern';
+	tk def item test kern_both 'sbcprc 1 1; bsercons $consbps F!kern';
+};
+
+
+fn menu_brutus {
+	tk def item load kern 'cp '$bindir'/i'$plat'.gz '$rmnt'/flash0kern';
+	tk def item load fs 'cp '$bindir'/fs.gz '$rmnt'/tmp; sb c/u T! F!fs';
+};
+
+fn menu_shannon {
+	tk def item load kern1 'cp '$bindir'/i'$plat'.gz '$rmnt'/flash0kern1';
+	tk def item load kern2 'cp '$bindir'/i'$plat'.gz '$rmnt'/flash0kern2';
+	tk def item load fs 'cp '$bindir'/fs.gz '$rmnt'/tmp; sb c/u T! F!fs';
+	tk def item test kern1 'sbcprc 0 0; sb b F!kern1';
+	tk def item test kern1_cprint 'sbcprc 1 0; sb b F!kern1';
+	tk def item test kern1_redir 'sbcprc 0 1; bsercons $consbps F!kern1';
+	tk def item test kern1_both 'sbcprc 1 1; bsercons $consbps F!kern1';
+	tk def item test kern2 'sbcprc 0 0; sb b F!kern2';
+	tk def item test kern2_cprint 'sbcprc 1 0; sb b F!kern2';
+	tk def item test kern2_redir 'sbcprc 0 1; bsercons $consbps F!kern2';
+	tk def item test kern2_both 'sbcprc 1 1; bsercons $consbps F!kern2';
+};
+
+
+fn menu_shandev {
+	menu_shannon;
+};
+
+
+fn layout {
+	if($mounted) {
+		if($sbcons) {
+			tk layout unmount reset bps mdb load test;
+		} else {
+			tk layout unmount reset bps mdb sboot boot;
+		};
+		tk taskbar $plat' '$serport' '$bps^bps' -> '$rmnt > /dev/null;
+	} else {
+		tk layout platform serial_port bps mount_styxmon;
+		tk taskbar $plat' '$serport' '$bps^bps > /dev/null;
+	};
+};
+
+fn refresh {
+	menu_allplat;
+	menu_$plat;
+	layout;
+};
+
+load tk;
+refresh;
+

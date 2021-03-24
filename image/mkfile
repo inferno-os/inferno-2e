@@ -1,0 +1,44 @@
+<../mkconfig
+
+LIB=libimage.a
+
+OFILES=\
+	alloc.$O\
+	arith.$O\
+	bezier.$O\
+	buildfont.$O\
+	bytesperline.$O\
+	creadimage.$O\
+	cursor.$O\
+	defont.$O\
+	draw.$O\
+	ellipse.$O\
+	font.$O\
+	freesubfont.$O\
+	getsubfont.$O\
+	init.$O\
+	line.$O\
+	mkfont.$O\
+	openfont.$O\
+	poly.$O\
+	loadimage.$O\
+	readimage.$O\
+	readsubfont.$O\
+	rectclip.$O\
+	replclipr.$O\
+	rgb.$O\
+	string.$O\
+	stringsubfont.$O\
+	stringwidth.$O\
+	subfont.$O\
+	subfontcache.$O\
+	subfontname.$O\
+	unloadimage.$O\
+	window.$O\
+	writeimage.$O\
+
+HFILES=\
+	$ROOT/include/image.h\
+	$ROOT/include/interp.h\
+
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE

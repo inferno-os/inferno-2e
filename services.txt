@@ -1,0 +1,15 @@
+#############################################################################
+# Assignment of inferno port numbers
+dir-agent	1359/tcp	dir_agent	# LDAP directory agent
+dir-proxy	1360/tcp	dir_proxy	# LDAP directory proxy
+styx		6666/tcp			# Main file service
+mpeg		6667/tcp			# Mpeg stream
+rstyx		6668/tcp			# Remote invocation
+infdb		6669/tcp			# Database connection
+infweb		6670/tcp	infweb		# inferno web server
+infsigner	6671/tcp	infsigner	# inferno signing services
+infcsigner	6672/tcp	infcsigner	# inferno signing services
+inflogin	6673/tcp	inflogin	# inferno login service
+rcbsrv		6675/tcp			# Remote call-back server
+virgil		2202/udp	virgild		# inferno info
+

@@ -1,0 +1,12 @@
+
+#	Variables for host system type = Plan9
+
+SHELLTYPE=	rc
+SHELLNAME=	rc
+HOSTMODEL=	Inferno
+OSTARG=		Inferno
+
+DATA2S=		/bin/aux/data2s
+NDATE=		date -n
+KSIZE=		size
+AWK=		awk

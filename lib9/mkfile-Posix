@@ -1,0 +1,6 @@
+TARGFILES=\
+	$IMPORTFILES\
+	dirstat-posix.$O\
+	errstr-posix.$O\
+	getuser-posix.$O\
+	log-posix.$O\

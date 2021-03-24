@@ -1,0 +1,29 @@
+Inferno Second Edition, 1999 (Lucent's Release 2.3 Build 265i)
+
+This is an historical snapshot of the bulk of the last Inferno source tree received by Vita Nuova
+in mid 1999 from Lucent's Inferno Business Unit, which was being shut down.
+It is not intended to be usable, nor is it intended that it run or even compile on any current platform.
+It was Lucent's Release 2.3 Build 265i.
+In Vita Nuova's naming, it corresponds to Inferno Second Edition.
+Vita Nuova had been involved in Inferno development as an Inferno customer since 1996,
+and as contractors to the Business Unit since 1997 (starting with the first PowerPC port).
+It acquired rights to Inferno from Lucent in March 2000, and produced its own Inferno
+release as Inferno Third Edition ca. July 2000.
+Until that release, Inferno was not normally distributed in complete source form, even to
+native port customers (hence the Dist.a archive references in os).
+Thus, this historical distribution will for many be the first sight of the source as it then was.
+(forsyth@vitanuova.com, 19 October 2007)
+
+It excludes various proprietary ports and other third-party material in the source tree we received.
+
+This software was originally provided by Lucent Technologies Inc under NOTICE.orig and LICENSE.orig.
+It is now being made available under the new licence in NOTICE, by Vita Nuova Holdings Limited,
+under an agreement with Lucent on 1 March 2000.
+
+* README.orig is the original README
+* os/js was a quick port to the JavaStation (which ran fast under Inferno!) by a skunkworks group in the Business Unit,
+for display at JavaOne, but someone decided not to ruffle Sun's feathers.
+* os/sa1100 ran on various desktop phone development kits
+* os/mpc was done by Vita Nuova as a port to the Motorola 823 FADS board with a slightly erratic early chip version
+* os/kfs and os/port/devkfs.c adapted "Ken's File System" from Plan 9 to provide permanent storage for native Inferno
+(similarly kfs and emu/devkfs.c). It was later replaced by a Limbo program.

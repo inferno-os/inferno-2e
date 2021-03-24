@@ -1,0 +1,25 @@
+#
+# VERENV rules
+#
+
+# Kername rules
+k$KERNAME.gz%: $KERNAME
+	$RM $ROOT/$VERENV
+
+$KERNAME: i$CONF.gz
+	$CP i$CONF.aif $KERNAME
+	gzip -fc $KERNAME >$KERNAME.gz
+
+# Create VERENV rule
+v$KERNAME%:
+	echo mkversenv $DEVTYPE /$VERENV > $ROOT/$EMUARGS
+	sh -c "trap pwd 0; $EMUCMD&"
+	sleep 2
+
+# Install kernel into the product release
+$PRODDIR/$KERN.gz%: $KERNAME
+	$CP $KERNAME.gz $PRODDIR/$KERN.gz
+
+#
+# End VERENV rules
+#

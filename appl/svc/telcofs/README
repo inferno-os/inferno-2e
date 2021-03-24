@@ -1,0 +1,81 @@
+18th July 1997
+
+Xiang/Tad,
+This is the pppclient code. I have assumed that it will be kept in /appl/svc/telcofs
+with the dis code in /dis/svc/telcofs. I have tested it on a native PC with a
+USRobotics Sportster modem and also on the Acer box with builtin modem.
+Unfortunately, I don't have the specification for the Acer modem so the modem
+definition used by telco may not be optimal.
+
+Most of the work is done by the telco module which is an almost complete
+implementation of the plan 9 telco file server. Complete except for the
+ability to accept incoming (Fax) calls. Complete, too, (unfortunately) in that
+its modem database is built in - this should probably come from a file in, say,
+/services/telco. I have added an entry for the USRobotics modem and the Acer box
+modem, the others come from the Plan 9 telco database.
+
+The pppclient code will load the telco module to identify the modem and dial 
+and then unload it on completion. The pppclient command looks like this:
+
+	pppclient [-d delim] [-b baud] [-t timeout] [-i myipaddr] [-m myipmask] [-p peeraddr] dialdevice telno [expect-send ...]
+
+Most of the options have sensible defaults and so can be ignored.
+The important ones are:
+
+`dialdevice' - The serial device on which to dial. Ignored if telco is already running.
+`telno' - The telephone number to dial.
+`expect-send...' -  A sequence of expect and send strings to action once a
+	connection has been made. The PPP interface is only enabled if all the expect
+	strings are matched. Both send and expect strings can contain control
+	characters as defined for limbo constants. No implicit new lines are
+	sent by the dialer. Either of the expect and send components may be omitted.
+`-d delim' - This changes the delimiter used to separate the expect and send
+	components described above.
+`-b baud' - Passed to telco to determine the modem connection speed.
+`-t timeout' - Number of seconds after connection at which the expect-send
+	conversation is failed if it has not completed.
+
+Best seen by example:
+
+	pppclient '#t/eia0' 0199338723 -\r ascend%-ppp\r
+
+will identify and initialise the modem on the first serial port, and dial the number
+0199338723. Once connected it will send a carriage return and then look for
+the string "ascend%". If it doesn't match it within the default timeout of 20 seconds
+it will fail, otherwise it will send the string "ppp" and a carriage return and then
+pass the filename '#t/eia0' to the kernel to establish the PPP interface.
+
+Pppclient doesn't modify the routing table. It assumes that if there are no other
+interfaces then the kernel will make this one the default, otherwise the user
+is responsible for making the appropriate routing entries via /net/iproute.
+
+The telco module can be loaded manually to service a number of modems
+and augments the namespace with /net/telco (exactly as in plan 9).
+Telco is loaded from the shell with, say, something like:
+
+	telco '#t/eia0' '#t/eia1'
+
+to service two modems on the first two serial ports.
+
+The Inferno dial() function will make use of telco as in:
+
+	(ok, c) := dial("telco!012345678!9600, nil);
+
+to call the number 012345678 at 9600 baud.
+
+I have had to make a small change to Bruce Ellis' Styx module (and so I use a copy)
+to enable a clean shutdown of the telco file server. Similarly, Charles made a few
+changes when he wrote the limbo 9660srv code. We need to ok these with Bruce.
+
+I am aware of the following problems/omissions:
+- If telco is started manually it is not easy to shut it down. The following will
+work but should be neater:
+		unmount /chan/telco.mcon /net
+		kill Styx StyxServer
+- The telco modem database should probably be stored in /services/telco.
+
+John Bates
+Vita Nuova
+john@vitanuova.com
+
++44 1904 435171

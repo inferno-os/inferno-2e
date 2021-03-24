@@ -1,0 +1,9 @@
+TEXT	umult(SB), $-4
+
+	MOVW	4(FP), R2
+	MULU	R1, R2
+	MOVW	8(FP), R3
+	MOVW	HI, R2
+	MOVW	R2, (R3)
+	MOVW	LO, R1
+	RET

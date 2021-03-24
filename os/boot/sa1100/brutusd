@@ -1,0 +1,67 @@
+# Brutus board with Hacked Demon
+
+first
+	l-nobpi		demonbpi
+	cache
+
+port
+	memcpy
+	atoi
+	print
+	portcons
+	malloc
+	qio
+	env
+	streamdev
+	iostream
+	gunzip		inflate crc
+	exec
+
+	statusbar
+	lineartrace
+	fadelogo	showimage putimage fade
+
+misc
+	main		archbrutus 
+	mmu
+	clock
+	kbdsejin
+
+link	
+	cmd
+	cmdport
+	cmdmisc		
+	bpi		portbpi
+	zerostream
+	ttystream
+	flashstreamd	flash flashptab
+	bpistream
+	memstream
+	lcd		screen font8x8
+	bpicons
+	ttycons
+	screentest
+#	cmdtouch	ucbtouch tcaldyn mcp
+	autoboot	maintmode setautoboot keyrelease
+
+lib
+	image
+	kern
+
+code
+	char *confverid = "a";
+
+	#include "../port/vmode.h"
+	Vmode default_vmode = {320,240,3,81,VMODE_COLOR};
+	int maxnarg = 64;
+	int maxnenv = 128;
+	int argbufsize = 512;	/* incl maxnarg*4 bytes for pointers */
+	int envbufsize = 1536;	/* incl maxnenv*4 bytes for pointers */
+	int savehimem = 2048;	/* argbufsize+envbufsize */
+
+	#include "../port/flash.h"
+	FlashMap flashmap[] = {
+		{ .base 0x08000000 },
+	};
+	int nflash = nelem(flashmap);
+

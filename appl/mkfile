@@ -1,0 +1,17 @@
+<../mkconfig
+
+DIRS=\
+	cmd\
+	cmd/disk\
+	ftpfs\
+	lib\
+	limbo\
+	math\
+	mpeg\
+	svc\
+	wm\
+	cmd/mash\
+	charon\
+	mailtool\
+
+<$ROOT/mkfiles/mksubdirs

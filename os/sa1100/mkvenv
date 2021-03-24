@@ -1,0 +1,38 @@
+# mk version.env for all devices
+# - compute kernel names (using emu)
+# - compute directory for kernel installation
+
+# EMU parameters for mkvenv rules
+EMUPATH=$ROOT/$SYSHOST/$EMUTYPE/bin/emu
+EMUCMD=$EMUPATH -r$ROOT -c1 /dis/shargs.dis
+EMUARGS=/tmp/.shargs
+
+# Compute kername using portable emu call (/dis/kername.dis):
+# - if emu not available default to NULL
+# - do ignore errors
+KFILEGZ=tmp/.kername
+KFILE=${KFILEGZ}_
+DO=`{echo NULL >$ROOT/$KFILEGZ}
+DO=`{echo NULL >$ROOT/$KFILE}
+DO=`{echo kername /$KFILEGZ $DEVTYPE $CONF $RELEASE> $ROOT/$EMUARGS}
+DO=`{$EMUCMD}
+KERNAME=`{$CAT $ROOT/$KFILEGZ}	#kernel name used for gzip
+KERN=`{$CAT $ROOT/$KFILE}	#kernel name to install in F!$KERN
+DO=`{$RM $ROOT/$KFILEGZ}
+DO=`{$RM $ROOT/$KFILE}
+# End kername
+
+# candidate /prod installation target for kernels
+KERNDIR=$ROOT/prod/$DEVTYPE/services/bin
+
+# If /prod set proddir to kerndir
+# - compute portable OR of install dirs
+# - do ignore errors
+PDIR=.proddir
+DO=`{echo $KERNDIR >$KERNDIR/$PDIR}
+DO=`{echo $PRODDIR >$ROOT/tmp/$PDIR}
+DO=`{$CP $KERNDIR/$PDIR $ROOT/tmp/$PDIR}
+PRODDIR=`{$CAT $ROOT/tmp/$PDIR}		#existing kernel product release
+DO=`{$RM $KERNDIR/$PDIR}
+DO=`{$RM $ROOT/tmp/$PDIR}
+# End proddir

@@ -1,0 +1,23 @@
+TARGMODEL=	Inferno
+TARGSHTYPE=	sh
+CPUS=		spim
+OBJDIR=		Inferno/spim		#force everything to point to inferno directory
+
+O=		0
+OS=		0
+
+AR=		iar
+ARFLAGS=	vu
+ARPREFIX=
+
+AS=		0a
+ASFLAGS=
+
+CC=		0c
+CFLAGS=		-w -I$ROOT/Inferno/spim/include -I$ROOT/include
+
+LD=		0l
+LDFLAGS=
+
+YACC=		yacc
+YFLAGS=		-d

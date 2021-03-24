@@ -1,0 +1,82 @@
+PORTHFILES=\
+	../port/error.h\
+	../../port/lib.h\
+	../port/portdat.h\
+	../port/portfns.h\
+
+LIBFILES=${LIBS:%=$ROOT/$TARGMODEL/$OBJTYPE/lib/lib%.a}
+
+%.$O:	%.s
+	$AS $stem.s
+
+%.$O:	%.c
+	$CC $CFLAGS $stem.c
+
+%.$O:	../port/%.c
+	$CC $CFLAGS -I. ../port/$stem.c
+
+%.$O:	$HFILES $PORTHFILES
+
+# %: Dist.a(%)
+# 	$AR x Dist.a $stem
+
+installall:V:	install-$SHELLTYPE
+all:V:		one-$SHELLTYPE
+
+lib%.a:V:	$SHELLTYPE-lib%.a
+
+rc-lib%.a nt-lib%.a:VQ:
+		echo '@{builtin cd' $ROOT/$stem '; mk SHELLTYPE=$SHELLTYPE SYSTARG=$SYSTARG OBJTYPE=$OBJTYPE install}'
+		@{builtin cd $ROOT/$stem; mk 'SHELLTYPE='$SHELLTYPE 'SYSTARG='$SYSTARG 'OBJTYPE='$OBJTYPE install}
+
+sh-lib%.a:VQ:
+		echo "(cd $ROOT/$stem ; mk SHELLTYPE=$SHELLTYPE SYSTARG=$SYSTARG OBJTYPE=$OBJTYPE install)"
+		(cd $ROOT/$stem; mk 'SHELLTYPE='$SHELLTYPE 'SYSTARG='$SYSTARG 'OBJTYPE='$OBJTYPE install)
+
+%-rc %-nt:V:
+		for(i in $CONFLIST)
+			mk 'CONF='$i $stem
+
+%-sh:V:
+		for i in $CONFLIST
+		do
+			mk 'CONF='$i $stem
+		done
+
+clean:V:	cleanconf-$SHELLTYPE
+		rm -f *.[$OS] *.root.[sh] errstr.h *.out
+
+cleanconf-sh:V:
+		for i in $CONFLIST
+		do
+			rm -f $i.c sb$i sb$i.list sb$i.aif sb$i.real sm$i sm$i.bin sm$i.list
+		done
+
+cleanconf-rc cleanconf-nt:V:
+		for(i in $CONFLIST)
+			rm -f $i.c sb$i sb$i.list sb$i.aif sb$i.real sm$i sm$i.bin sm$i.list
+
+nuke-sh:QV:
+		for i in $LIBDIRS
+		do
+			echo "(cd $ROOT/$i ; mk SHELLTYPE=$SHELLTYPE SYSTARG=$SYSTARG OBJTYPE=$OBJTYPE nuke)"
+			(cd $ROOT/$i; mk 'SHELLTYPE='$SHELLTYPE 'SYSTARG='$SYSTARG 'OBJTYPE='$OBJTYPE nuke)
+		done
+
+nuke-rc nuke-nt:QV:
+		for (i in $LIBDIRS)
+		{
+			echo '@{cd $ROOT/$i ; mk SHELLTYPE=$SHELLTYPE SYSTARG=$SYSTARG OBJTYPE=$OBJTYPE nuke}'
+			@{cd $ROOT/$i; mk 'SHELLTYPE='$SHELLTYPE 'SYSTARG='$SYSTARG 'OBJTYPE='$OBJTYPE nuke}
+		}
+
+nuke:V:		clean nuke-$SHELLTYPE
+
+$CONF.c:	../port/mkdevc $CONF
+		$SHELLNAME ../port/mkdevc $CONF > $CONF.c
+
+errstr.h:	../port/error.h
+		sed 's/extern //;s,;.*/\* , = ",;s, \*/,";,' < ../port/error.h > errstr.h
+
+print.$O:	errstr.h
+

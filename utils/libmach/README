@@ -1,0 +1,3 @@
+Support for .v, .6, .x, and .9 object files awaits porting of appropriate compilers.
+Meanwhile, their entries are commented out in obj.c and the corresponding ?obj.c don't
+appear in the mkfile (makefile).

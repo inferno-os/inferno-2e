@@ -1,0 +1,108 @@
+dev
+	root
+	cons archbrutus kbd
+	gpio
+	mnt
+	pipe
+	prog
+	srv
+	draw
+	uart
+	sapcm
+	flash
+	touch
+	ip	bootp ip ipaux iproute arp netlog ptclbsum iprouter plan9 nullmedium pktmedium
+	ether netif netaux ethermedium
+#	ata
+
+ip
+#	il
+	tcp
+	udp
+#	rudp
+#	igmp
+	ipifc
+	icmp
+	ipmux
+
+lib
+	interp
+	tk
+	image
+	memlayer
+	memimage
+	keyring
+	kern
+	crypt
+
+mod
+	sys
+	draw
+	tk
+	keyring
+
+port
+	alarm
+	alloc
+	chan
+	dbg
+	dev
+	dial
+	dis
+	discall
+	exception
+	exportfs
+	fault
+	inferno
+	latin1
+	ns
+	pgrp
+	print
+	proc
+	qio
+	qlock
+	styx
+	sysfile
+	taslock
+	utils
+	xalloc
+
+link	
+	lcd
+	ether589
+	ethertdk
+	pppmedium ppp compress
+
+code
+	int kernel_pool_pcnt = 10;
+	int main_pool_pcnt = 40;
+	int heap_pool_pcnt = 20;
+	int image_pool_pcnt = 40;
+	int cflag = 1;
+
+	int consoleprint = 1;
+	int redirectconsole = 1;
+	char debug_keys = 1;
+	int panicreset = 0;
+	char *resetmsg;
+	char *noresetmsg;
+
+	Vmode default_vmode = {320,240,3,60,VMODE_COLOR};
+
+
+init
+	brutinit
+
+root
+	/chan
+	/dev
+	/dis
+	/net
+	/prog
+	/dev/draw
+	/osinit.dis
+	/n/remote
+	/dis/lib
+	/dis/lib/auth.dis
+	/dis/lib/ssl.dis
+

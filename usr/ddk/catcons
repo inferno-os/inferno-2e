@@ -1,0 +1,5 @@
+load tk;
+s=(hd $args);
+tk taskbar $s > /dev/null;
+cat $s &
+while(1) { cat > $s; echo '' > $s; };

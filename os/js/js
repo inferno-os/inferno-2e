@@ -1,0 +1,97 @@
+dev
+	root
+	cons
+	mnt
+	pipe
+	prog
+	rtc
+	srv
+	ssl
+	draw
+
+	ip	bootp ip ipaux iproute arp netlog ptclbsum iprouter plan9 nullmedium pktmedium
+	lance netif netaux ethermedium
+
+	ns16552
+	tinyfs
+#	cs4231		A
+
+ip
+#	il
+	tcp
+	udp
+#	rudp
+#	igmp
+	ipifc
+	icmp
+	ipmux
+
+lib
+	interp
+	tk
+	prefab
+	image
+	memlayer
+	memimage
+	keyring
+	kern
+	crypt
+#	math
+
+mod
+	sys
+	draw
+	prefab
+	tk
+	keyring
+
+link
+	pppmedium ppp compress
+
+init
+	jsinit
+
+root
+	/chan
+	/dev
+	/dis
+	/n
+	/net
+	/nvfs
+	/prog
+	/dev/draw
+	/osinit.dis
+
+
+port
+	alarm
+	alloc
+	chan
+	dbg
+	dev
+	dial
+	dis
+	discall
+	exception
+	exportfs
+	inferno
+	latin1
+	ns
+	pgrp
+	print
+	proc
+	qio
+	qlock
+	styx
+	sysfile
+	taslock
+	utils
+	xalloc
+
+code
+	int kernel_pool_pcnt = 10;
+	int main_pool_pcnt = 40;
+	int heap_pool_pcnt = 20;
+	int image_pool_pcnt = 40;
+	int consoleprint = 1;
+

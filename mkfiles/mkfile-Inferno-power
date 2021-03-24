@@ -1,0 +1,23 @@
+TARGMODEL=	Inferno
+TARGSHTYPE=	rc
+CPUS=		power 386
+
+O=		q
+OS=		v851ok0q
+
+AR=		ar
+ARFLAGS=	vu
+
+AS=		qa
+ASFLAGS=
+
+CC=		qc
+CFLAGS=		-w -I$ROOT/Inferno/power/include -I$ROOT/include
+
+LD=		ql
+LDFLAGS=
+
+SYSLIBS=	#-lc
+
+YACC=		yacc
+YFLAGS=		-d

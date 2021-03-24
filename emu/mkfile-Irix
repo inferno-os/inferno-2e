@@ -1,0 +1,16 @@
+#
+#	architecture-dependent files for IRIX
+#
+
+TARGFILES=asm-Irix.$O\
+	devfs-posix.$O\
+	devip.$O\
+	ipif-posix.$O\
+	os-Irix.$O\
+	win-x11.$O\
+	devaudio.$O\
+	devaudio-Irix.$O\
+	srv.$O\
+	svp.$O\
+
+SYSLIBS=	-lfpe -lm -lX11

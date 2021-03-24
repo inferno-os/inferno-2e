@@ -1,0 +1,20 @@
+<../../../mkconfig
+
+TARG=\
+	telco.dis\
+	telcofs.dis\
+	pppclient.dis\
+	styx.dis\
+	styxreply.dis\
+	dirmod.dis\
+
+MODULE=\
+	telco.m\
+	styx.m\
+	dirmod.m\
+
+SYSMODULES=nextsrv.m\
+
+DISBIN=$ROOT/dis/svc/telcofs
+
+<$ROOT/mkfiles/mkdis

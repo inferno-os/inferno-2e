@@ -1,0 +1,67 @@
+# SWoRD board with Demon or StyxMon
+
+first
+	l
+	cache
+
+port
+	memcpy
+	atoi
+	print
+	portcons
+	malloc
+	env
+	streamdev
+	iostream
+	gunzip		inflate crc
+	exec
+
+	statusbar
+	lineartrace
+	fadelogo	showimage putimage fade
+
+misc
+	main		archsword bpi portbpi
+	mmu
+	clock
+	kbdfuj
+
+link	
+	cmd
+	cmdport
+	cmdmisc		
+	zerostream
+	ttystream
+	flashstream	flash flashptab
+	bpistream
+	tmpstream	qio
+	memstream
+	lcd		screen font8x8
+	bpicons
+	ttycons
+	screentest
+	cmdtouch	ucbtouch tcaldyn mcp
+	autoboot	maintmode setautoboot keyrelease
+	terminal
+
+lib
+	image
+	kern
+
+code
+	char *confverid = "a";
+
+	#include "../port/vmode.h"
+	Vmode default_vmode = {640,480,2,81,VMODE_MONO};
+	int maxnarg = 64;
+	int maxnenv = 128;
+	int argbufsize = 512;	/* incl maxnarg*4 bytes for pointers */
+	int envbufsize = 1536;	/* incl maxnenv*4 bytes for pointers */
+	int savehimem = 2048;	/* argbufsize+envbufsize */
+
+	#include "../port/flash.h"
+	FlashMap flashmap[] = {
+		{ .base 0x08000000 },
+	};
+	int nflash = nelem(flashmap);
+

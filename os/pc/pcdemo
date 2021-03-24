@@ -1,0 +1,148 @@
+dev
+	root
+	cons
+	mnt
+	pipe
+	prog
+	rtc
+	srv
+	ssl
+
+	draw
+
+	ip	bootp ip ipaux iproute arp netlog ptclbsum386 iprouter plan9 nullmedium pktmedium
+	ether netif netaux ethermedium
+
+#	ata
+#	audio
+	ns16552	dma
+	floppy	dma
+	lpt
+	tinyfs
+
+	dbg	x86break
+
+	ramdisk
+	kfs 	chk kcon console dat dentry fcall fs fswren iobuf kfs sub uid
+
+ip
+#	il
+	tcp
+	udp
+#	rudp
+#	igmp
+	ipifc
+	icmp
+	ipmux
+
+lib
+	interp
+	keyring
+#	prefab
+	memlayer
+	memimage
+	tk
+	image
+	crypt
+	kern
+
+ether
+	ether21140	pci
+	ether82557	pci
+	etherelnk3	pci
+	mouse
+	pppmedium ppp compress
+
+vga
+	vgavesa		swcursor
+	vgaclgd542x	pci
+	vgas3		pci
+	vgamach64ct	pci
+
+misc
+	archgeneric
+
+mod
+	sys
+	draw
+	tk
+	keyring
+
+init
+	pcdemo
+
+code
+	int kernel_pool_pcnt = 10;
+	int main_pool_pcnt = 40;
+	int heap_pool_pcnt = 20;
+	int image_pool_pcnt = 40;
+	int cflag=1;
+	int swcursor;
+	int consoleprint=1;
+
+port
+	alarm
+	alloc
+	chan
+	dev
+	dial
+	dis
+	discall
+	exception
+	exportfs
+	fault
+	inferno
+	latin1
+	ns
+	pgrp
+	print
+	proc
+	qio
+	qlock
+	styx
+	sysfile
+	taslock
+	utils
+	xalloc
+
+root
+	/chan
+	/data	/
+	/dev
+	/dis
+	/flash	/
+	/icons
+	/licensedb
+	/locale
+	/n
+	/n/remote
+	/n/ssl
+	/net
+	/nvfs
+	/prog
+	/services
+	/tmp
+	/usr
+	/dev/draw
+	/dis/lib
+	/dis/svc
+	/dis/wm
+	/osinit.dis
+#	/dis/sh.dis
+#	/dis/ls.dis
+#	/dis/cat.dis
+#	/dis/bind.dis
+#	/dis/mount.dis
+#	/dis/imount.dis
+#	/dis/pwd.dis
+#	/dis/echo.dis
+#	/dis/cd.dis
+	/dis/lib/bufio.dis
+	/dis/lib/string.dis
+#	/dis/lib/readdir.dis
+#	/dis/lib/workdir.dis
+#	/dis/lib/daytime.dis
+#	/dis/lib/auth.dis
+#	/dis/lib/ssl.dis
+	/version.env
+

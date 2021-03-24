@@ -1,0 +1,25 @@
+#
+#	Set the following 3 variables:
+#
+#	Absolute path to the root of the source tree.  On Nt systems, 
+#	the ROOT path MUST be of the form `ROOT=drive:/path'
+#
+ROOT=$HOME/inf2.3
+
+#
+#	Specify host OS type and architecture.  The host system is the 
+#	system where the software will be built.  $SYSHOST always means
+#	the OS of the build host, and $OBJTYPE is as the processor of the 
+#	build host.  
+#
+SYSHOST=Solaris		# build system OS type (Hp, Inferno, Irix, Linux, Nt, Plan9, Solaris)
+OBJTYPE=sparc		# build system processor type (s800, mips, 386, sparc) 
+
+#
+#	No changes required beyond this point
+#
+SYSTARG=$SYSHOST	# target system OS type.  Native builds override this.
+OBJDIR=$SYSTARG/$OBJTYPE
+
+<$ROOT/mkfiles/mkhost-$SYSHOST		# variables appropriate for host system
+<$ROOT/mkfiles/mkfile-$SYSTARG-$OBJTYPE	# variables used to build target object type

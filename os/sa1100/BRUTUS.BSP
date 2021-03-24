@@ -1,0 +1,166 @@
+Instructions to create a Solaris Brutus BSP/DDK product:
+
+1) Create the build trees, as done for normal daily builds..
+
+2) edit the mkconfig file to set the following variables:
+
+	ROOT to build directory
+	SYSHOST to Solaris
+	OBJTYPE to sparc, assumming compiling on a Solaris sparc.
+
+3) compile the inf2.3 and prod 2.3 generics using the install option,
+	as for normal daily builds
+
+4) Create an brutus kernel by the following:
+	make sure PATH points to the newly created executables in Solaris/sparc/bin.
+
+
+	cd <builddir>/os/sa1100 
+	Set mkfile to be writeable (chmod +w mkfile) 
+	modify the mkfile to set the CONF variable to brutus.
+	mk install acid
+
+	After make is done, remove Dist.a if it exists.
+	Next, create a new Dist.a file, by using the following script:
+
+KFSFILES="chk dat fcall fswren kcon sub console dentry fs iobuf kfs uid"
+IPFILES="bootp compress devip gre icmp il ip ipaux ipextproto media netlog pktifc ppp tcp udp"
+O=5
+
+liblist=""
+for f in $IPFILES $KFSFILES $SMARMFILES
+do
+	if test -f ${f}.${O}
+	then
+		liblist="${liblist} ${f}.${O}"
+	fi
+done
+echo "Creating Library file Dist.a"
+iar ru Dist.a ${liblist}
+
+	After the Dist.a file is created, modify the mkfile in os/sa1100
+	with the following script:
+
+ed - mkfile <<!
+g/CONF=shandev/s/shandev/brutus/
+g/CONFLIST=.*$/s//CONFLIST=brutus/
+g/:.*LIBNAMES/s/\$LIBNAMES//p
+w
+q
+!
+
+5) Create the brutus boot code:
+
+	cd <builddir>/os/boot/sa1100
+	mk install
+
+	After the boot files are created, modify the mkfile in os/boot/sa1100
+	with the following script:
+
+ed - mkfile <<!
+g/:.*LIBNAMES/s/\$LIBNAMES//p
+w
+q
+!
+
+6) Create the Brutus BSP/DDK tar file:
+
+	cd <builddir>/os/sa1100
+	There is a proto file named brutusddkproto, that contains the information
+	for the tar file. Move this file to <builddir> and process the file to create 
+	the Solaris tar file.
+	When working under the Korn shell this can be done with the following command:
+
+		tar cvf <tar_file_name> -I brutusddkproto  
+
+
+
+Instructions to create a NT Brutus BSP/DDK product:
+
+1) Create the build trees, as done for normal daily builds..
+
+2) edit the mkconfig file to set the following variables:
+
+	ROOT to build directory
+	SYSHOST to Nt
+	SYSTARG to Nt
+	OBJTYPE to 386
+
+3) compile the inf2.3 and prod 2.3 generics using the install option,
+	as for normal daily builds
+
+4) Create an brutus kernel by the following:
+	make sure PATH points to the newly created executables in Nt\386\bin.
+
+	cd <builddir>\os\sa1100 
+	modify the mkfile CONF variable to be brutus.
+	mk install acid
+
+	using rcsh or mks, after make is done create the Dist.a file,
+	by using the following script:
+
+
+KFSFILES="chk dat fcall fswren kcon sub console dentry fs iobuf kfs uid"
+SMARMFILES="aif smdebug smstub"
+IPFILES="bootp compress devip gre icmp il ip ipaux ipextproto media netlog pktifc ppp tcp udp"
+O=5
+
+liblist=""
+for f in $IPFILES $KFSFILES $SMARMFILES
+do
+	if test -f ${f}.${O}
+	then
+		liblist="${liblist} ${f}.${O}"
+	fi
+done
+echo "Creating Library file Dist.a"
+iar Dist.a ${liblist}
+
+
+	After the Dist.a file is created, modify the mkfile in os\sa1100
+	with the following script:
+
+ed - mkfile <<!
+g/CONF=.*$/s/shandev/brutus/
+g/CONFLIST=.*$/s//CONFLIST=brutus/
+g/:.*LIBNAMES/s/\$LIBNAMES//p
+w
+q
+!
+
+
+5) Create the brutus boot code:
+
+	cd <builddir>\os\boot\sa1100
+	mk install
+
+	After the boot files are created, modify the mkfile in os\boot\sa1100
+	with the following script:
+
+ed - mkfile <<!
+g/CONF=.*$/s//CONF=brutus/
+g/CONFLIST=.*$/s//CONFLIST=brutus/
+g/:.*LIBNAMES/s/\$LIBNAMES//p
+w
+q
+!
+
+6) Create the Brutus BSP/DDK media file:
+
+	The InstallShield files assume the build directory is in C:\usr\inf2.3
+	if this isn't correct, the File Groups contents must be updated to point
+	to the correct build directory.
+
+	The Brutus BSP InstallShield files are in the tar file:
+
+		<builddir>\scripts\InstallShield\brutus.tar
+
+	The files should be extracted into the C:\My Installations\Brutus
+	directory. Using InstallShield 5.0 or later, open the brutus bsp.ipr file
+	in the directory C:\My Installations\Brutus\brutus bsp.ipr
+
+	Create the media by using button Build -> Make Media
+
+	
+	Make sure you select to only install on NT systems.
+

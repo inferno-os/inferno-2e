@@ -1,0 +1,279 @@
+
+
+		     The Inferno R2.3 Source Tree
+		     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Welcome to the Inferno Operating System Release 2.3 source tree.
+This file attempts to provide a brief introduction to the contents of
+this source tree and directions on how to get started building it.
+
+
+---------------------------------------------------------------------
+
+Building the Inferno R2.3 Source Tree
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. Configure "mkconfig" for Host platform:
+
+  The build process configuration file, "mkconfig" must be modified to 
+reflect the location of the Inferno Source Tree and the Host build environment.
+To do this, mkconfig must be made writeable (chmod +w mkconfig) and three (3) 
+variables must be set correctly.  These are:
+	
+	ROOT=$HOME/inf2.3
+
+		This specifies the absolute path to the root of the
+		Inferno source tree. On Nt systems, the ROOT path MUST
+		be of the form `drive:/path' (e.g. "ROOT=C:/inf2.3").
+
+	SYSHOST=Linux
+
+		This specifies the host operating system.  This may be
+		one of the following: Hp, Inferno (Brazil), Irix,
+		Linux, Nt, Plan9 or Solaris
+
+	OBJTYPE=386
+
+		This specifies the processor type of the host
+		operating system. This may be one of the following:
+		s800, mips, 386, and sparc.
+
+  Note: Unlike previous Inferno source trees, "mkconfig" does NOT need to
+        be changed to build native kernels.  It only needs to be configured
+        with the host environment and that is ALL. 
+
+
+2. Accessing Binary Tools:
+
+Unix
+	1. Make executables executable with command like:
+		chmod +x [ROOT]/[SYSHOST]/[OBJTYPE]/bin/* 
+		(e.g. chmod +x ~/inf2.3/Linux/386/bin/*)
+	
+	2. Add [ROOT]/[SYSHOST]/[OBJTYPE]/bin to path:
+		(e.g. 	tcsh: 'set path=(~/inf2.3/Linux/386/bin $path) ; rehash'
+			bash: 'PATH=~/inf2.3/Linux/386/bin:$PATH ; export PATH' )
+
+NT4
+	Add [ROOT]/[SYSHOST]/[OBJTYPE]/bin to path in 
+	Control Panel -> System -> Environment
+
+
+3. Building the hosted Environment:
+
+From the root of the source tree:
+
+"mk all"
+	Builds all hosted libraries, tools and EMU.  Also builds all
+	Limbo applications under appl/.  NOTE: This will NOT work on a
+	completely clean tree as there is no installed limbo compiler.
+	Thus, the first build of a new tree must always be a "mk install".
+
+"mk install"
+	
+	Builds all hosted libraries, tools and EMU and installs them into
+	[ROOT]/[SYSHOST]/[OBJTYPE]/bin.  Also builds all Limbo
+	applications and installs them under dis/.
+
+"mk clean"
+	Removes all object files from the tree but NOT the libraries
+	and executables from [ROOT]/[SYSHOST]/[OBJTYPE] and the DIS
+	code from dis/.
+
+"mk nuke"
+	Removes all object files and generated sources such as YACC
+	generated source and header files generated from Limbo module
+	files.  Also removes all DIS code from dis/.
+
+
+4. Building the Native Kernels:
+
+To build a platform:
+	cd os/[platform]
+	"mk"
+		Builds one kernel.
+
+	"mk all"
+		Builds all kernels for platform.
+
+	"mk install"
+		Builds and installs one kernel into 
+		[ROOT]/Inferno/[OBJTYPE]/bin.
+
+	"mk installall"
+		Builds all kernels for platform and installs them
+		into [ROOT]/Inferno/[OBJTYPE]/bin.
+
+	"mk clean"
+	"mk nuke"
+
+To build all native kernels, from source tree root:
+	"mk kernel" or "mk kernelall"
+	"mk kernelinstall"
+	"mk kernelclean"
+	"mk kernelnuke"
+
+5. Building the native boot loaders:
+
+	The native os bootloaders can be found under os/boot.  Please
+	look in os/boot for detailed directions on building and installing
+	these bootloaders/
+
+---------------------------------------------------------------------
+
+What is Where?
+^^^^^^^^^^^^^^
+
+Hp/
+Inferno/
+Irix/
+Linux/
+Nt/
+Plan9/
+Solaris/
+Unixware/
+	Directories containing Host specific binaries and include
+	files. This also contains the library files built from each
+	directory.
+
+dev/
+chan/
+tmp/
+nvfs/
+net/
+n/
+prog/
+	Empty directories as place holders for running EMU.
+
+appl/
+	Source for generic Limbo Applications
+
+asm/
+	Host ("C") version of DIS Assembler
+
+crypt/
+	Limbo Cryptography library.
+
+dis/
+	Location for Installed DIS applications
+
+emu/
+	Source code for EMU.
+
+fonts/
+	Fonts for use with $Draw and Tk.
+
+httpcache/
+	Empty placeholder for Charon web browser cache files.
+
+icons/
+	Small images used by the Tk applications that live in appl/.
+
+image/
+	Image library for implementing $Draw that uses the /dev/draw
+	interface.
+
+include/
+	Common "C" Header files.
+
+interp/
+	DIS Interpreter, JIT compilers and majority of virtual machine (VM).
+
+kern/
+	Stand-alone Plan9 "C" library used by Native Kernels only.
+
+keyring/
+	Cryptographic Key Management Library used to implement $Keyring
+
+kfs/
+	KFS Library for use with EMU for making file-systems to place into
+	ROM for native systems.
+
+lib/
+	Data files for Hosted ACID debugger and Limbo YACC compiler.
+
+lib9/
+	Plan9 "C" Library used by Hosted Programs
+
+libbio/
+	Hosted "C" version of Plan9's buffered IO library for
+	use by Hosted Programs.
+
+libregexp/
+	Regular expression library used by Hosted tools.
+
+licensedb/
+	Inferno License legal information and registration files.
+
+limbo/
+	Hosted ("C") version of Limbo Compiler.
+
+locale/
+	International Time-zone and Localization files.
+
+man/
+	Manual pages in TROFF, HTML and Windows Help formats.
+
+math/
+	Math Library used to implement $Math Builtin.
+
+memimage/
+	Low level graphics and image library.  Used as lowest level implementation
+	of /dev/draw interface.	
+
+memlayer/
+	Windowing, clipping and off-screen image library.  Used in implementation of
+	/dev/draw interface.
+
+mkfiles/
+	Makefile templates for all hosted and target platforms.
+
+module/
+	Limbo Common Module declaration files (".m")
+
+os/
+	Native kernel source tree.
+
+papyrus/
+	Papyrus hand writing recognition library (ARM Object file form only).
+
+prefab/
+	Prefab simple GUI library used to implement $Prefab builtin module.
+
+scripts/
+	Script files for installation. (Windows InstallShield and
+	Solaris shell scripts)
+
+services/
+	Configuration and Data files for many Limbo Applications.
+
+tk/
+	Tk GUI library used to implement $Tk builtin module.
+
+tools/
+	Misc. Hosted tools for use with EMU.
+
+usr/
+	Sample user home directories.
+
+utils/               
+	Compilers and all other hosted tools used to build Native Kernels.
+
+gif/
+jpeg/
+	Should be deleted as no longer used.  Did contain source for
+	builtin Modules for GIF and JPEG Image decompression.
+
+mkconfig
+	Build process configuration file.
+
+mkfile
+	Top level Makefile.
+
+services.txt
+	Inferno TCP/IP Services definitions. (Add to /etc/services or 
+	\Windows\System32\????\services.txt)
+
+inf2.3.rel
+	Source Tree Build ID.
+

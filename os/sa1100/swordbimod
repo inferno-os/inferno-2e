@@ -1,0 +1,290 @@
+dev
+	root
+	cons archsword kbd
+	gpio
+	mnt
+	pipe
+	prog
+	srv
+	ssl
+	draw
+	touch
+	uart
+	ip	bootp ip ipaux iproute arp netlog ptclbsum iprouter plan9 nullmedium pktmedium netaux
+	flash
+	kfs 	chk kcon console dat dentry fcall fs fswren iobuf kfs sub uid
+	sm	aif smstub ../smarm/Sm0F03F.data
+	tad	dtad6471c
+
+ip
+	tcp
+	udp
+	ipifc
+	icmp
+
+lib
+	interp
+	tk
+	image
+	memlayer
+	memimage
+	keyring
+	kern
+	crypt
+
+mod
+	sys
+	draw
+	tk
+	keyring
+
+port
+	alarm
+	alloc
+	chan
+	dbg
+	dev
+	dial
+	dis
+	discall
+	exception
+	exportfs
+	fault
+	inferno
+	latin1
+	ns
+	pgrp
+	print
+	proc
+	qio
+	qlock
+	styx
+	sysfile
+	taslock
+	utils
+	xalloc
+
+link	
+	lcd
+	pppmedium ppp compress
+
+code
+	int kernel_pool_pcnt = 10;
+	int main_pool_pcnt = 30;
+	int heap_pool_pcnt = 30;
+	int image_pool_pcnt = 40;
+	int cflag = 0;
+
+	int consoleprint = 0;
+	int redirectconsole = 1;
+	char debug_keys = 1;
+	int panicreset = 0;
+	char *resetmsg;
+	char *noresetmsg;
+
+	Vmode default_vmode = {640,480,2,98,VMODE_MONO};
+
+
+init
+	sword
+
+root
+	/chan
+	/dev
+	/dis
+	/flash /
+	/net
+	/nvfs /
+	/prog
+	/locale
+	/services
+	/usr
+	/data /
+	/services/cs
+	/usr/inferno
+	/dev/draw
+	/dis/lib
+	/dis/svc
+	/dis/wm
+	/osinit.dis
+
+# For development work:
+	/dis/sh.dis
+	/dis/ls.dis
+	/dis/cat.dis
+	/dis/bind.dis
+	/dis/mount.dis
+	/dis/imount.dis
+	/dis/pwd.dis
+	/dis/echo.dis
+	/dis/cd.dis
+
+# Fix cfgfile.dis
+	/dis/cp.dis
+
+# bimodal kernel
+	/dis/unmount.dis
+	/dis/netready.dis
+	/dis/kill.dis
+	/dis/lib/csget.dis
+# end bimodal
+
+# Fix svc/cs
+	/dis/lib/ipsrv.dis
+	/dis/lib/qidcmp.dis
+	/dis/lib/rtoken.dis
+#
+
+	/dis/lib/readdir.dis
+	/dis/lib/workdir.dis
+	/dis/lib/daytime.dis
+	/dis/lib/auth.dis
+	/dis/lib/ssl.dis
+	/dis/lib/bufio.dis
+	/dis/lib/string.dis
+
+# bimodal kernel
+	/dis/lib/cfgfile.dis
+	/dis/lib/dict.dis
+	/dis/lib/lock.dis
+	/dis/lib/login.dis
+	/dis/lib/newns.dis
+	/dis/lib/password.dis
+	/dis/lib/plumb.dis
+	/dis/lib/plumbmsg.dis
+	/dis/lib/random.dis
+	/dis/lib/rcbsrv.dis
+	/dis/lib/regex.dis
+	/dis/lib/wmlib.dis
+# end bimodal
+
+	/n
+	/n/remote
+	/n/local /
+
+# Enable login
+	/n/ssl
+
+# For telephony driver:
+	/cvt /
+	/cvt/tgen /
+	/cvt/cons /
+	/tel /
+
+	/version.env /os/sa1100/swordbimod.ver
+
+#
+# Product specific path names
+#
+# Add bimodal kernel
+	/tmp
+	/tmp/chan /
+	/fonts
+	/fonts/lucidasans
+	/fonts/lucidasans/boldlatin1.13.font
+	/fonts/lucidasans/boldlatin1.7.font
+	/fonts/lucidasans/latin1.13.font
+	/fonts/lucidasans/latin1.10.font
+	/fonts/lucidasans/latin1.7.font
+	/fonts/lucidasans/latin1_13.font
+	/fonts/lucidasans/lsb.24
+	/fonts/lucidasans/lsb.12
+	/fonts/lucidasans/lsr.24
+	/fonts/lucidasans/lsr.18
+	/fonts/lucidasans/lsr.12
+	/icons
+	/icons/tk
+	/icons/tk/network.bit
+	/usr/inferno/keyring /
+	/usr/inferno/config
+	/usr/inferno/plumbing
+
+	/usr/inferno/tbsetup /prod/sword/services/config/tbsetupbimod
+
+	/services/config
+	/services/cs
+	/services/dns
+	/services/ldap
+	/services/ppp
+	/services/cs/config
+	/services/config/sdc.cfg /prod/sword/services/config/sdc.cfg
+	/services/dns/db /prod/sword/services/dns/db
+	/services/ppp/modem.cfg /prod/sword/services/ppp/modem.cfg
+	/services/ppp/isp.cfg	/prod/sword/services/ppp/isp.cfg
+	/services.txt /prod/ldap/services/ldap/services.txt
+
+	/dis/flash.dis /prod/sds/dis/flash.dis
+
+	/dis/util /
+	/dis/util/netrflash.dis /prod/sds/dis/util/netrflash.dis
+	/dis/util/env.dis /prod/sds/dis/util/env.dis
+	/dis/util/fail.dis /prod/sds/dis/util/fail.dis
+	/dis/util/iputil.dis /prod/sds/dis/util/iputil.dis
+	/dis/util/proc.dis /prod/sds/dis/util/proc.dis
+	/dis/util/setenv.dis /prod/sds/dis/util/setenv.dis
+
+	/var /
+
+# Shell escape
+	/dis/wm/msh.dis
+	/dis/wm/mwm.dis
+
+# Sword services
+	/dis/svc/ppp
+	/dis/svc/cs
+	/dis/svc/ppp/modem.dis
+	/dis/svc/ppp/pppclient.dis
+	/dis/svc/ppp/pppgui.dis
+	/dis/svc/ppp/script.dis
+	/dis/svc/cs/cs.dis
+	/dis/svc/cs/ipservice.dis
+	/dis/svc/cs/ispservice.dis
+	/dis/svc/cs/localservice.dis
+
+# Phone minimal
+	/dis/telephony/phoneGUI.dis /prod/sword/dis/telephony/phoneGUI.dis
+	/dis/directory/addrdb.dis /prod/sword/dis/directory/addrdb.dis
+
+# i18n abuse
+	/dis/telephony/phoneGUI_gui.dis /prod/sword/dis/telephony/phoneGUI_gui.dis
+	/dis/telephony/phoneGUI_tk.dis /prod/sword/dis/telephony/phoneGUI_tk.dis
+	/dis/directory/addrdb_gui.dis /prod/sword/dis/directory/addrdb_gui.dis
+
+# Sword toolbar
+	/dis/wm/plumbing.dis
+	/dis/tapi/digitalInit.dis /prod/sword/dis/tapi/digitalInit.dis
+	/dis/wm/tblogon.dis /prod/sword/dis/wm/tblogon.dis
+	/dis/wm/tbwm.dis /prod/sword/dis/wm/tbwm.dis
+	/dis/wm/tbwmlib.dis /prod/sword/dis/wm/tbwmlib.dis
+	/dis/config/swordconfig.dis /prod/sword/dis/config/swordconfig.dis
+	/dis/config/touchcal.dis /prod/sword/dis/config/touchcal.dis
+
+# i18n abuse
+	/dis/lib/sword_gui.dis /prod/sword/dis/lib/sword_gui.dis
+	/dis/wm/tblogon_gui.dis /prod/sword/dis/wm/tblogon_gui.dis
+	/dis/wm/tbwm_gui.dis /prod/sword/dis/wm/tbwm_gui.dis
+	/dis/config/swordconfig_gui.dis /prod/sword/dis/config/swordconfig_gui.dis
+	/dis/config/swordconfig_tk.dis /prod/sword/dis/config/swordconfig_tk.dis
+	/dis/config/touchcal_gui.dis /prod/sword/dis/config/touchcal_gui.dis
+	/dis/config/touchcal_tk.dis /prod/sword/dis/config/touchcal_tk.dis
+
+# Sdc minimal
+	/dis/wm/sdc/sdc.dis /prod/sds/dis/wm/sdc/sdc.dis
+	/dis/wm/sdc/configisp.dis /prod/sds/dis/wm/sdc/configisp.dis
+	/dis/wm/sdc/dialui.dis /prod/sds/dis/wm/sdc/dialui.dis
+	/dis/wm/sdc/dialui_msg.dis /prod/sds/dis/wm/sdc/dialui_msg.dis
+	/dis/wm/sdc/popup.dis /prod/sds/dis/wm/sdc/popup.dis
+	/dis/wm/sdc/popup_msg.dis /prod/sds/dis/wm/sdc/popup_msg.dis
+
+# Sd connection recovery
+	/dis/wm/sdc/protect.dis /prod/sds/dis/wm/sdc/protect.dis
+	/dis/wm/sdc/netmon.dis /prod/sds/dis/wm/sdc/netmon.dis
+	/dis/wm/sdc/netmon_msg.dis /prod/sds/dis/wm/sdc/netmon_msg.dis
+	/dis/wm/sdc/dspmon.dis /prod/sds/dis/wm/sdc/dspmon.dis
+	/dis/wm/sdc/dspmon_msg.dis /prod/sds/dis/wm/sdc/dspmon_msg.dis
+
+# config debugging
+	/dis/util/netwflash.dis /prod/sds/dis/util/netwflash.dis
+
+# end bimodal
+

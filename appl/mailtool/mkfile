@@ -1,0 +1,47 @@
+#
+# mkfile - appl/mailtool
+#
+<../../mkconfig
+
+TARG=\
+	assclist.dis\
+	compose.dis\
+	mailtool.dis\
+	mail-interface.dis\
+	mail-mgr.dis\
+#	maili18n_english.dis\
+	mailtool_gui.dis\
+	mailtool_code.dis\
+	mailtool_tk.dis\
+	pop3.dis\
+	smtp.dis\
+	xlate.dis\
+
+MODULES=\
+	$ROOT/module/mailtool/assclist.m\
+	$ROOT/module/mailtool/compose.m\
+	$ROOT/module/mailtool/dispatch.m\
+	$ROOT/module/mailtool/gdispatch.m\
+	$ROOT/module/mailtool/mailtool.m\
+	$ROOT/module/mailtool/mail-interface.m\
+#	$ROOT/module/mailtool/maili18ngui.m\
+	$ROOT/module/mailtool/xlate.m\
+	$ROOT/module/mailtool/mailtool_code.m\
+	$ROOT/module/mailtool/mailtool_gui.m\
+	$ROOT/module/mailtool/mailtool_tk.m\
+
+SYSMODULES=\
+	bufio.m\
+	daytime.m\
+	draw.m\
+	key.m\
+	regex.m\
+      	string.m\
+	sys.m\
+	tk.m\
+	wmlib.m\
+
+DISBIN=$ROOT/dis/mailtool
+
+<$ROOT/mkfiles/mkdis
+LIMBOFLAGS=-I$MODDIR -I$MODDIR/mailtool

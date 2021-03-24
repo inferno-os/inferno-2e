@@ -1,0 +1,23 @@
+<../../../../mkconfig
+
+LOCALE_ROOT=$ROOT/locale/zh_CN
+COMPFLAG=-I$ROOT/appl/charon -I$LOCALE_ROOT/module
+DIRS=\
+
+TARG=\
+
+LOCALE_MODULES=\
+
+MODULES=${LOCALE_MODULES:%=$LOCALE_ROOT/module/%}
+
+SYSMODULES= \
+
+DISBIN=.\
+
+TARGDATA=charon\
+
+
+DATADIR=$ROOT/services/config
+
+
+<./mkdis

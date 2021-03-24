@@ -1,0 +1,594 @@
+
+
+
+
+
+
+
+
+
+	      Inferno Network Operating System
+	    SA1100 Brutus Board Support Package
+
+
+			  ABSTRACT
+
+
+	  Inferno(tm)  is  a  network  operating system
+     which is a product of the Inferno Business Unit of
+     Lucent  Technologies and was developed in coopera-
+     tion with the Computing Science Research Center of
+     Bell Labs.
+
+	  This	document describes the requirements for
+     the  SA1100  Brutus  board	 support  package   and
+     detailed	instructions   for  building  the  boot
+     loader, kernel,  and  BSP	distribution.  It  also
+     describes how to install the built boot loader and
+     kernel onto a target and details how  to  setup  a
+     network  file  server to serve applications to the
+     target.
+
+
+
+1.  Requirements
+
+     1.1.  Supported Target Hardware
+	  SA1100 Brutus Board, although	 can  be  ported  to
+	  other SA1100 variants.
+
+     1.2.  Supported Boot Environment
+
+     The  Brutus  BSP's	 configured  environment  is network
+     based, that is to say that the system expects to access
+     the  application  file system and/or kernel from a file
+     server using an ethernet network. In order for this  to
+     work  correctly,  you  must  have a network file server
+     running a hosted version of Inferno 2.3.
+
+     There is enough flash memory on the  Brutus  (256K)  to
+     fit either a very small stripped-down kernel, or a tiny
+     application filesystem, but in general it	is  best  to
+     use  the flash to store local configuration data due to
+     its small size.  boot its kernel from the network.
+
+2.  Building
+
+     2.1.  Building the Kernel
+
+	  cd <builddir>/os/sa1100
+	  mk CONF=brutus install acid
+
+
+
+
+
+
+
+
+
+			     -2-
+
+
+     2.2.  Building the Boot Loader and StyxMon
+
+	  Note: The boot loader must be built after the
+	  kernel
+	       cd <builddir>/os/boot/sa1100
+	       mk CONF=brutus install
+
+     2.3.  Building a Solaris BSP distribution from a source
+     distribution
+
+	  cd <builddir>/os/boot/sa1100
+	  mk clean
+	  cd <builddir>/os/sa1100
+	  chmod u+x Dist.a
+	  iar vu Dist.a bootp.5 compress.5 devip.5 gre.5 icmp.5 \
+	       il.5 ip.5 ipaux.5 ipextproto.5 media.5 netlog.5 \
+	       pktifc.5 ppp.5 tcp.5 udp.5 \
+	       chk.5 dat.5 fcall.5 fswren.5 kcon.5 sub.5 console.5 dentry.5 \
+	       fs.5 iobuf.5 kfs.5 uid.5
+	  chmod u+w mkfile
+	  remove $LIBNAME dependency from <builddir>/os/sa1100/mkfile
+	  cd <builddir>/os/boot/sa1100
+	  chmod u+w mkfile
+	  remove libkern.a dependency from <builddir>/os/boot/sa1100
+	  mk clean
+	  cd <builddir>/utils
+	  mk clean
+	  Make a tar archive using <builddir>/os/sa1100/brutusddkproto as a file list.
+
+     2.4.  Building an NT BSP  distribution  from  a  source
+     distribution
+
+	  cd <builddir>/os/boot/sa1100
+	  mk clean
+	  cd <builddir>/os/sa1100
+	  chmod 777 Dist.a
+	  iar vu Dist.a bootp.5 compress.5 devip.5 gre.5 icmp.5 \
+	       il.5 ip.5 ipaux.5 ipextproto.5 media.5 netlog.5 \
+	       pktifc.5 ppp.5 tcp.5 udp.5 \
+	       chk.5 dat.5 fcall.5 fswren.5 kcon.5 sub.5 console.5 dentry.5 \
+	       fs.5 iobuf.5 kfs.5 uid.5
+	  chmod 666 mkfile
+	  remove $LIBNAME dependency from <builddir>/os/sa1100/mkfile
+	  mk clean
+	  cd <builddir>/os/boot/sa1100
+	  chmod 666 mkfile
+	  remove libkern.a dependency from <builddir>/os/boot/sa1100
+	  mk clean
+	  cd <builddir>/utils
+	  mk clean
+
+     The   InstallShield  files	 assume	 the  <builddir>  is
+     c:\usr\inf2.3, if this is not correct than the files in
+     the  File	Groups directory must be changed to point to
+
+
+
+
+
+
+
+
+
+			     -3-
+
+
+     the correct <builddir>. The  Brutus  BSP  InstallShield
+     files  are	 in the tar file <builddir>\scripts\Install-
+     Shield\brutus.tar.
+
+     The files should be extracted from the  tar  file	into
+     C:\My  Installations\Brutus  Directory.  Using Install-
+     Shield 5.0 or later, open the  file  'brutus  bsp.ipr'.
+     Create  the media using the button Build -> Make Media,
+     and than send to the media.
+
+3.  Installation and Boot
+
+     3.1.  Installing the Boot Loader
+
+     To initially get things running, you need a set of Bru-
+     tus  flash	 chips	with  at  least StyxMon installed on
+     them.  However, the best choice to get  things  running
+     initially is to install the complete pre-generated Bru-
+     tus     ROM     image     that	is     found	  in
+     "Inferno/arm/bin/brutrom.bin".   Burn  this  image onto
+     the two Atmel flash chips, and place the chip with	 the
+     high  16 bits of the image into the socket that is fur-
+     ther away from you (assuming that the keyboard is clos-
+     est to you).
+
+     Make  sure	 all  the  switches are set to their default
+     configuration, with the DRAM/SRAM switch  set  to	DRAM
+     (consult  the  Brutus documentation for details).	Now,
+     ensure that no chips are present in the  Flash  sockets
+     (the  ones to the left of the ROM sockets), and set S22
+     (GPIO0) to "no dot", and turn the power  on.   After  a
+     small delay, two green LED's should turn on, signifying
+     that StyxMon is working,  and  then  the  Inferno	logo
+     should  fade  into	 the  screen,  showing that sboot is
+     working.  At this point, the  boot	 default  is  "e!0",
+     which  means  the	Brutus will attempt to boot from the
+     ethernet if a compatible ethernet board is found in one
+     of the two PCMCIA slots.
+
+     Before  continuing any further, it would be a good idea
+     to get a general understanding  of	 the  control  logic
+     behind the boot process.
+
+     3.2.  StyxMon
+
+     When StyxMon first starts up, it performs multiple fast
+     tests of DRAM to determine the  correct  configuration,
+     and  then	it  does  a  slow memory test on all the 1MB
+     blocks of memory it finds.	 It builds  a  bitmask	that
+     shows  which  of  those  1MB blocks (out of a potential
+     total of 512) are valid.  All valid 1MB blocks are then
+     mapped contiguously as DRAM in the memory map that gets
+     set up.  See the file  "os/boot/sa1100/brutus.mcf"	 for
+     the  standard  memory  mapping that gets set up.  After
+
+
+
+
+
+
+
+
+
+			     -4-
+
+
+     this memory test is complete, StyxMon will turn on	 the
+     two greed LED's to signify success.
+
+     Next, StyxMon will check the Flash memory (which is now
+     mapped at 0x0a000000) and look for	 a  valid  partition
+     table  signature (the magic number 0xc001babe at offset
+     0x10).  If it does not  find  this,  it  reassigns	 the
+     flashbase	address	 to  be	 the  same  as	the  rombase
+     (0x08000000), and repeats this process (thus allowing a
+     completely	 ROM-based boot process when no Flash memory
+     is available).  If	 no  valid  partition  signature  is
+     found  in	the  ROM  either,  it will simply default to
+     "debug mode", which will require a Styx-enabled host to
+     connect via the serial port.
+
+     After  a  valid partition signature is found, the auto-
+     boot vector is looked at next (at offset 0x28).  If the
+     value is non-zero, then that value is used as an offset
+     from the flashbase, and an executable program is looked
+     for  at  this offset.  This executable can be in either
+     plan9 or AIF format, but cannot  be  compressed.  (only
+     sboot  can	 decompress  gzip'ed  files) If a valid exe-
+     cutable is found, it is loaded and relocated  appropri-
+     ately  and then executed, with R0 pointing to the Boot-
+     Param (BPI) structure.  (whose definition can be  found
+     in		     "os/boot/sa1100/bpi.h"		 and
+     "os/boot/port/portbpi.h").
+
+     Generally, this autoboot vector will either be  set  to
+     0, to always force debug mode, or it will be set to the
+     offset of sboot.  From the sboot  prompt,	this  vector
+     can  be set with "P/a sboot".  It is possible to add or
+     subtract the difference between the flashbase  and	 the
+     rombase, to put an autoboot vector in one chip that can
+     boot off the other.  For instance, if  you	 have  flash
+     chips  with  a  valid partition table, and you want, by
+     default, to load the sboot that is in  the	 ROM  chips,
+     enter the following command from sboot, "P/a fe004000".
+     (this assumes that your sboot in the ROM lives  at	 the
+     default offset of 0x4000).
+
+     The autoboot vector can be overridden (treated as if it
+     was not set) by moving S22 (GPIO0) to the	"dot"  posi-
+     tion.   In	 this  way, it is possible to leave autoboot
+     always enabled in the flash  (or  ROM),  and  use	this
+     switch to select between autoboot and debug mode.	When
+     the Brutus is in debug mode, do not expect to see	any-
+     thing  on the screen.  However, you should still expect
+     to see the two green LED's turn on.
+
+     Following a software or hardware-initiated reset  (with
+     the power still on), StyxMon will only perform the fast
+     memory test, and will reuse  the  existing	 bitmask  to
+     determine	which  1MB  banks  of  DRAM  were valid.  It
+
+
+
+
+
+
+
+
+
+			     -5-
+
+
+     checks memory location 0xb00000a0 for the magic  number
+     0x0feb6399,  and  if  it  finds  this,  it	 then  reads
+     0xb00000b0 to find the physical address of the bitmask.
+     Note  that	 these registers are used for DMA, so if the
+     kernel (or other programs) being run changes them, then
+     on	 the next reset StyxMon will be forced to go through
+     a full memory test (and thus destroy the prior contents
+     of memory).
+
+     3.3.  Sboot
+
+     It	 would be recommended to look at the sboot manual at
+     this time before reading further.
+
+     When sboot starts up, it checks the BP_FLAG_DEBUG	flag
+     in	 the  BPI (BootParam Interface).  If this is set, it
+     just displays the info from  the  BootParam  interface,
+     and starts at the sboot prompt.  This will occur if the
+     board was started in debug	 mode.	 If  the  board	 was
+     started from autoboot mode, then sboot will fade in the
+     logo (if "F!logo"	can  be	 found)	 and  the  read	 the
+     plan9.ini	partition.  It will then attempt to boot the
+     default bootfile.	On the standard rom image,  this  is
+     all  set  up  to  try to automatically boot from "e!0",
+     which means it will attempt to TFTP the  default  boot-
+     file served by the BOOTP server.
+
+     3.4.  Setting Up a Bootp File Server Host
+
+     3.4.1.  Setting Up Bootp
+
+     In	 order	to  boot  the x86 target, you must create an
+     entry for it in the Bootp database.  The default  loca-
+     tion for this database is /services/bootp/db.  In order
+     to create an entry, you must first obtain the  target's
+     hardware  ethernet address, IP address, subnet mask and
+     gateway information.  You must have also decided  on  a
+     file server, authentication server, and boot file name.
+
+     Bootp database entries are colon-separated fields,	 one
+     line per machine in the following format:
+
+	  <name>:<h/w addr>:<ip addr>:<boot-file>:<sub-net>:<gateway>:\
+	       <file server>:<auth server>:
+
+     Example:
+	  nativepc:ha=080020880AE2:ip=135.3.60.180:bf=ipc:sm=255.255.255.0:\
+	       gw=135.3.60.150:fs=135.3.60.232:au=135.3.60.232:
+
+	  <name>  designates the symbolic name of the system
+	  you are booting.
+
+	  <h/w addr> is the hardware ethernet address  which
+	  can  usually	be  found by looking at the ethernet
+
+
+
+
+
+
+
+
+
+			     -6-
+
+
+	  card.	 If it cannot be discovered  this  way,	 try
+	  reviewing  system logs for unknown bootp requests,
+	  or putting the bootp application into "snoop" mode
+	  (-s).	  Another  alternative is to attempt to boot
+	  from SBoot with the  "b  e!0"	 command,  and	then
+	  break out and type "=" to look at the environment.
+	  There	  should   be	a   line   of	 the	form
+	  "eth0addr=00:10:5a:d1:f6:ce".	 The colon separated
+	  value is the	hardware  address  of  the  ethernet
+	  card.
+
+	  <ip  addr> is the IP address you wish to assign to
+	  the target.
+
+	  <boot-file> is the path to the kernel (Relative to
+	  tftpd) that you wish to boot.
+
+	  <gateway>  is the ip address of the target's gate-
+	  way.
+
+	  <file server> is the ip address  of  the  target's
+	  file server (running styxd).
+
+	  <auth	 server>  is  the ip address of the target's
+	  authentication server.
+
+     Make sure to leave a blank line at the end of the Bootp
+     database.	 If bootp can't process the database (due to
+     formating errors) it will print error messages and	 may
+     not  start.  Try using the debug flags (-d, -D, and -v)
+     if you are having trouble.
+
+     You can start bootp in two ways on an Host running	 the
+     Inferno  host  command emu, manually, or using lib/srv.
+     To start bootp manually, simply run lib/bootp from	 the
+     shell:
+	  inferno$ lib/bootp &
+
+     You  may  also start bootp automatically when you start
+     lib/srv by adding an entry to /services/server/config:
+	  10 M 67   udp /dis/lib/bootp.dis
+
+     3.4.2.  Setting Up Tftpd
+
+     In order to start up tftpd (which allows  you  to	boot
+     kernels  across the network), simply create a directory
+     called /services/tftpd and copy  kernels  you  wish  to
+     boot  there.  Then either start tftpd manually from the
+     shell:
+	  inferno$ lib/tftpd
+
+     or add another line to /services/server/config:
+	  10 M 69   udp /dis/lib/tftpd.dis
+
+
+
+
+
+
+
+
+
+
+			     -7-
+
+
+     3.4.3.  Exporting the File System
+
+     In order to set up a simple file  server  for  develop-
+     ment, simply run lib/srv from the shell:
+	  inferno$ lib/srv
+
+     If	 properly  configured,	this will start up bootp and
+     tftpd for you as well.  For more details on the  compo-
+     nents  and	 functions  of	lib/srv	 along	with  a more
+     detailed description of how to setup authenticated file
+     service, please reference the Inferno user's manuals.
+
+     3.5.  Booting
+
+     The Brutus boot loader (sboot) can load the kernel from
+     either the network or from flash.	First, in order	 for
+     the  Brutus board to boot automatically, the S22 switch
+     must be set to the "no dot"  position.   Alternatively,
+     the  sboot	 commands  can be entered via StyxMon if the
+     switch is in the "dot" position for  debug	 mode.	 See
+     the StyxMon documentation if you choose this path, oth-
+     erwise just set S22 to "no dot".
+
+     When sboot first starts up, it will look for  a  parti-
+     tion  on  the  flash  (or	ROM,  if there was no flash)
+     called "plan9.ini".  If it finds  this  file,  it	will
+     read  the commands and execute them.  Only two types of
+     commands are valid in this file-- the  assignment	com-
+     mand,  of	the  form "x=y", and the source/include com-
+     mand, of the form ". filename".  Note that it  is	very
+     important	that  any  unused portions of this partition
+     are filled with null characters  (character  0),  since
+     the  parititon is of a fixed length, and all of it will
+     be executed.
+
+     After sourcing plan9.ini, sboot will try to execute the
+     "b"  command,  which  by  default	is  equivalent to "b
+     $bootfile $bootargs".  This  command  will	 attempt  to
+     boot  the	Brutus from the device/file specified by the
+     bootfile variable.
+
+     3.5.1.  To boot the Brutus from a flash partition,	 the
+     bootfile  should  be  specified as "F!0!partitionname".
+     This will automatically uncompress a compressed  kernel
+     from  flash device 0, and start executing it.  When the
+     device is 0, it can be omitted, thus  "F!partitionname"
+     is	 equivalent.   The  kernel can be in either plan9 or
+     AIF format.
+
+     3.5.2.  Booting from the Network
+
+     To boot the Brutus from the network, the  bootfile	 can
+     either  be	 specified  as "e!0" or "e!0!filename".	 The
+     former one will use the default bootfile name from	 the
+
+
+
+
+
+
+
+
+
+			     -8-
+
+
+     bootp server, while the latter uses the specified file-
+     name.  Either way, any access to  the  e!	device	will
+     make  sure the PCMCIA and ethernet are initialized, and
+     will use the bootp	 protocol  to  determine  the  local
+     address  and  network  information, followed by TFTP to
+     get the file.
+
+     When booting the  kernel  via  the	 network  the  bootp
+     server must have the correct ethernet address in the ea
+     field for the ethernet card being used  on	 the  Brutus
+     board.
+
+     3.6.  Flash
+
+     The  Brutus  board has only 256K of flash memory, which
+     is divided into 512 byte sectors.	 A  second  bank  of
+     256K  is locked down to act as ROM.  The monitor (Styx-
+     Mon) and boot loader (sboot)  normally  reside  in	 the
+     ROM,  although  an	 alternate boot loader can be loaded
+     from the flash.
+
+     3.7.  Configuration
+
+     The configuration information is stored in a flash par-
+     tition  called  "plan9.ini".  This partition is read by
+     sboot whenever it starts up in autoboot mode.  The data
+     in	 this partition consists of a newline-separated list
+     of assignment commands, although it is possible to also
+     use  the  include command to pull in configuration data
+     from other locations.
+
+     A sample plan9.ini file might look like:
+	  bootfile=F!0!kern1
+	  consoleprint=1
+	  redirectconsole=0
+	  shell=/dis/sh.dis
+     An example of including an alternate configuration file
+     could be:
+	  . e!0!plan9.ini
+     This specific example would allow changing the configu-
+     ration parameters on the host TFTP server, rather	than
+     having to modify them on the device.
+
+     3.8.  Debugging with Acid
+
+     In order to debug the kernel with the acid command, you
+     must include the debug driver and powerbreak files into
+     the  kernel  build.  This is done in the dev section of
+     the mpc kernel configuration file, os/mpc/mpc, as	fol-
+     lows:
+	  dev
+	       dbg  powerbreak portbreak
+
+
+
+
+
+
+
+
+
+
+
+			     -9-
+
+
+     Rebuild the kernel and copy it to your bootp server. To
+     have the most information available,  you	should	also
+     run  the  mk  acid	 rule.	 After the system boots, the
+     debugger is in control of the serial port, and sets the
+     speed  to 19200 baud. The serial port must be connected
+     via a null modem cable to a working serial port on your
+     host.  An example command to run acid on the host is:
+	  acid -R <serial_port_name> -l impc.acid impc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

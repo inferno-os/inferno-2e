@@ -1,0 +1,669 @@
+sizeof_1_ = 8;
+aggr _1_
+{
+	'D' 0 hlength;
+	'D' 4 length;
+};
+
+defn
+_1_(addr) {
+	complex _1_ addr;
+	print("	hlength	", addr.hlength, "\n");
+	print("	length	", addr.length, "\n");
+};
+
+sizeof_2_ = 8;
+aggr _2_
+{
+	'a' 0 clength;
+	'V' 0 vlength;
+	{
+	'D' 0 hlength;
+	'D' 4 length;
+	};
+};
+
+defn
+_2_(addr) {
+	complex _2_ addr;
+	print("	clength	", addr.clength, "\n");
+	print("	vlength	", addr.vlength, "\n");
+	print("_1_ {\n");
+		_1_(addr+0);
+	print("}\n");
+};
+
+sizeofFconv = 24;
+aggr Fconv
+{
+	'X' 0 out;
+	'X' 4 eout;
+	'D' 8 f1;
+	'D' 12 f2;
+	'D' 16 f3;
+	'D' 20 chr;
+};
+
+defn
+Fconv(addr) {
+	complex Fconv addr;
+	print("	out	", addr.out\X, "\n");
+	print("	eout	", addr.eout\X, "\n");
+	print("	f1	", addr.f1, "\n");
+	print("	f2	", addr.f2, "\n");
+	print("	f3	", addr.f3, "\n");
+	print("	chr	", addr.chr, "\n");
+};
+
+sizeofTm = 40;
+aggr Tm
+{
+	'D' 0 sec;
+	'D' 4 min;
+	'D' 8 hour;
+	'D' 12 mday;
+	'D' 16 mon;
+	'D' 20 year;
+	'D' 24 wday;
+	'D' 28 yday;
+	'a' 32 zone;
+	'D' 36 tzoff;
+};
+
+defn
+Tm(addr) {
+	complex Tm addr;
+	print("	sec	", addr.sec, "\n");
+	print("	min	", addr.min, "\n");
+	print("	hour	", addr.hour, "\n");
+	print("	mday	", addr.mday, "\n");
+	print("	mon	", addr.mon, "\n");
+	print("	year	", addr.year, "\n");
+	print("	wday	", addr.wday, "\n");
+	print("	yday	", addr.yday, "\n");
+	print("	zone	", addr.zone, "\n");
+	print("	tzoff	", addr.tzoff, "\n");
+};
+
+sizeofQid = 8;
+aggr Qid
+{
+	'U' 0 path;
+	'U' 4 vers;
+};
+
+defn
+Qid(addr) {
+	complex Qid addr;
+	print("	path	", addr.path, "\n");
+	print("	vers	", addr.vers, "\n");
+};
+
+sizeofDir = 116;
+aggr Dir
+{
+	'a' 0 name;
+	'a' 28 uid;
+	'a' 56 gid;
+	Qid 84 qid;
+	'U' 92 mode;
+	'D' 96 atime;
+	'D' 100 mtime;
+	{
+	'a' 104 clength;
+	'V' 104 vlength;
+	{
+	'D' 104 hlength;
+	'D' 108 length;
+	};
+	};
+	'u' 112 type;
+	'u' 114 dev;
+};
+
+defn
+Dir(addr) {
+	complex Dir addr;
+	print("	name	", addr.name, "\n");
+	print("	uid	", addr.uid, "\n");
+	print("	gid	", addr.gid, "\n");
+	print("Qid qid {\n");
+	Qid(addr.qid);
+	print("}\n");
+	print("	mode	", addr.mode, "\n");
+	print("	atime	", addr.atime, "\n");
+	print("	mtime	", addr.mtime, "\n");
+	print("_2_ {\n");
+		_2_(addr+104);
+	print("}\n");
+	print("	type	", addr.type, "\n");
+	print("	dev	", addr.dev, "\n");
+};
+
+sizeofWaitmsg = 112;
+aggr Waitmsg
+{
+	'a' 0 pid;
+	'a' 12 time;
+	'a' 48 msg;
+};
+
+defn
+Waitmsg(addr) {
+	complex Waitmsg addr;
+	print("	pid	", addr.pid, "\n");
+	print("	time	", addr.time, "\n");
+	print("	msg	", addr.msg, "\n");
+};
+
+sizeofBiobuf = 8244;
+aggr Biobuf
+{
+	'D' 0 icount;
+	'D' 4 ocount;
+	'D' 8 rdline;
+	'D' 12 runesize;
+	'D' 16 state;
+	'D' 20 fid;
+	'D' 24 flag;
+	'D' 28 offset;
+	'D' 32 bsize;
+	'X' 36 bbuf;
+	'X' 40 ebuf;
+	'X' 44 gbuf;
+	'a' 48 b;
+};
+
+defn
+Biobuf(addr) {
+	complex Biobuf addr;
+	print("	icount	", addr.icount, "\n");
+	print("	ocount	", addr.ocount, "\n");
+	print("	rdline	", addr.rdline, "\n");
+	print("	runesize	", addr.runesize, "\n");
+	print("	state	", addr.state, "\n");
+	print("	fid	", addr.fid, "\n");
+	print("	flag	", addr.flag, "\n");
+	print("	offset	", addr.offset, "\n");
+	print("	bsize	", addr.bsize, "\n");
+	print("	bbuf	", addr.bbuf\X, "\n");
+	print("	ebuf	", addr.ebuf\X, "\n");
+	print("	gbuf	", addr.gbuf\X, "\n");
+	print("	b	", addr.b, "\n");
+};
+
+sizeofLine = 12;
+aggr Line
+{
+	'X' 0 file;
+	'D' 4 line;
+	'D' 8 pos;
+};
+
+defn
+Line(addr) {
+	complex Line addr;
+	print("	file	", addr.file\X, "\n");
+	print("	line	", addr.line, "\n");
+	print("	pos	", addr.pos, "\n");
+};
+
+sizeofSrc = 24;
+aggr Src
+{
+	Line 0 from;
+	Line 12 to;
+};
+
+defn
+Src(addr) {
+	complex Src addr;
+	print("Line from {\n");
+	Line(addr.from);
+	print("}\n");
+	print("Line to {\n");
+	Line(addr.to);
+	print("}\n");
+};
+
+sizeofAddr = 16;
+aggr Addr
+{
+	'b' 0 mode;
+	'D' 4 reg;
+	'D' 8 offset;
+	'X' 12 decl;
+};
+
+defn
+Addr(addr) {
+	complex Addr addr;
+	print("	mode	", addr.mode, "\n");
+	print("	reg	", addr.reg, "\n");
+	print("	offset	", addr.offset, "\n");
+	print("	decl	", addr.decl\X, "\n");
+};
+
+sizeofInst = 96;
+aggr Inst
+{
+	Src 0 src;
+	'u' 24 op;
+	'b' 26 reach;
+	'D' 28 pc;
+	Addr 32 from;
+	Addr 48 reg;
+	Addr 64 to;
+	'A' Inst 80 ret;
+	'A' Inst 84 branch;
+	'A' Inst 88 next;
+	'X' 92 block;
+};
+
+defn
+Inst(addr) {
+	complex Inst addr;
+	print("Src src {\n");
+	Src(addr.src);
+	print("}\n");
+	print("	op	", addr.op, "\n");
+	print("	reach	", addr.reach, "\n");
+	print("	pc	", addr.pc, "\n");
+	print("Addr from {\n");
+	Addr(addr.from);
+	print("}\n");
+	print("Addr reg {\n");
+	Addr(addr.reg);
+	print("}\n");
+	print("Addr to {\n");
+	Addr(addr.to);
+	print("}\n");
+	print("	ret	", addr.ret\X, "\n");
+	print("	branch	", addr.branch\X, "\n");
+	print("	next	", addr.next\X, "\n");
+	print("	block	", addr.block\X, "\n");
+};
+
+sizeofBlock = 12;
+aggr Block
+{
+	'D' 0 id;
+	'A' Block 4 in;
+	'A' Block 8 next;
+};
+
+defn
+Block(addr) {
+	complex Block addr;
+	print("	id	", addr.id, "\n");
+	print("	in	", addr.in\X, "\n");
+	print("	next	", addr.next\X, "\n");
+};
+
+sizeofCase = 28;
+aggr Case
+{
+	'D' 0 op;
+	'A' Inst 4 inst;
+	'D' 8 nlab;
+	'D' 12 nsnd;
+	'D' 16 offset;
+	'X' 20 labs;
+	'A' Inst 24 wild;
+};
+
+defn
+Case(addr) {
+	complex Case addr;
+	print("	op	", addr.op, "\n");
+	print("	inst	", addr.inst\X, "\n");
+	print("	nlab	", addr.nlab, "\n");
+	print("	nsnd	", addr.nsnd, "\n");
+	print("	offset	", addr.offset, "\n");
+	print("	labs	", addr.labs\X, "\n");
+	print("	wild	", addr.wild\X, "\n");
+};
+
+sizeofLabel = 20;
+aggr Label
+{
+	'X' 0 node;
+	'C' 4 isptr;
+	'X' 8 start;
+	'X' 12 stop;
+	'A' Inst 16 inst;
+};
+
+defn
+Label(addr) {
+	complex Label addr;
+	print("	node	", addr.node\X, "\n");
+	print("	isptr	", addr.isptr, "\n");
+	print("	start	", addr.start\X, "\n");
+	print("	stop	", addr.stop\X, "\n");
+	print("	inst	", addr.inst\X, "\n");
+};
+
+sizeofDecl = 112;
+aggr Decl
+{
+	'X' 0 sym;
+	'b' 4 store;
+	Src 8 src;
+	'A' Decl 32 import;
+	'A' Decl 36 curimp;
+	'A' Decl 40 implementation;
+	'A' Decl 44 dot;
+	'A' Decl 48 locals;
+	'A' Decl 52 old;
+	'A' Decl 56 ext;
+	'A' Decl 60 next;
+	'X' 64 init;
+	'X' 68 type;
+	'D' 72 scope;
+	'D' 76 errors;
+	'D' 80 ref;
+	'C' 84 set;
+	'C' 85 def;
+	'C' 86 nolval;
+	'C' 87 tref;
+	'C' 88 implicit;
+	'C' 89 loaded;
+	'D' 92 offset;
+	'D' 96 modoff;
+	'X' 100 desc;
+	'A' Inst 104 pc;
+	'A' Inst 108 endpc;
+};
+
+defn
+Decl(addr) {
+	complex Decl addr;
+	print("	sym	", addr.sym\X, "\n");
+	print("	store	", addr.store, "\n");
+	print("Src src {\n");
+	Src(addr.src);
+	print("}\n");
+	print("	import	", addr.import\X, "\n");
+	print("	curimp	", addr.curimp\X, "\n");
+	print("	implementation	", addr.implementation\X, "\n");
+	print("	dot	", addr.dot\X, "\n");
+	print("	locals	", addr.locals\X, "\n");
+	print("	old	", addr.old\X, "\n");
+	print("	ext	", addr.ext\X, "\n");
+	print("	next	", addr.next\X, "\n");
+	print("	init	", addr.init\X, "\n");
+	print("	type	", addr.type\X, "\n");
+	print("	scope	", addr.scope, "\n");
+	print("	errors	", addr.errors, "\n");
+	print("	ref	", addr.ref, "\n");
+	print("	set	", addr.set, "\n");
+	print("	def	", addr.def, "\n");
+	print("	nolval	", addr.nolval, "\n");
+	print("	tref	", addr.tref, "\n");
+	print("	implicit	", addr.implicit, "\n");
+	print("	loaded	", addr.loaded, "\n");
+	print("	offset	", addr.offset, "\n");
+	print("	modoff	", addr.modoff, "\n");
+	print("	desc	", addr.desc\X, "\n");
+	print("	pc	", addr.pc\X, "\n");
+	print("	endpc	", addr.endpc\X, "\n");
+};
+
+sizeofDesc = 24;
+aggr Desc
+{
+	'D' 0 id;
+	'b' 4 used;
+	'X' 8 map;
+	'D' 12 len;
+	'D' 16 nmap;
+	'A' Desc 20 next;
+};
+
+defn
+Desc(addr) {
+	complex Desc addr;
+	print("	id	", addr.id, "\n");
+	print("	used	", addr.used, "\n");
+	print("	map	", addr.map\X, "\n");
+	print("	len	", addr.len, "\n");
+	print("	nmap	", addr.nmap, "\n");
+	print("	next	", addr.next\X, "\n");
+};
+
+sizeofSym = 24;
+aggr Sym
+{
+	'u' 0 token;
+	'X' 4 name;
+	'D' 8 len;
+	'D' 12 hash;
+	'A' Sym 16 next;
+	'A' Decl 20 decl;
+};
+
+defn
+Sym(addr) {
+	complex Sym addr;
+	print("	token	", addr.token, "\n");
+	print("	name	", addr.name\X, "\n");
+	print("	len	", addr.len, "\n");
+	print("	hash	", addr.hash, "\n");
+	print("	next	", addr.next\X, "\n");
+	print("	decl	", addr.decl\X, "\n");
+};
+
+sizeofNode = 60;
+aggr Node
+{
+	Src 0 src;
+	'b' 24 op;
+	'b' 25 addable;
+	'b' 26 parens;
+	'b' 27 temps;
+	'A' Node 28 left;
+	'A' Node 32 right;
+	'X' 36 type;
+	'A' Decl 40 decl;
+	'V' 44 val;
+	'F' 52 rval;
+};
+
+defn
+Node(addr) {
+	complex Node addr;
+	print("Src src {\n");
+	Src(addr.src);
+	print("}\n");
+	print("	op	", addr.op, "\n");
+	print("	addable	", addr.addable, "\n");
+	print("	parens	", addr.parens, "\n");
+	print("	temps	", addr.temps, "\n");
+	print("	left	", addr.left\X, "\n");
+	print("	right	", addr.right\X, "\n");
+	print("	type	", addr.type\X, "\n");
+	print("	decl	", addr.decl\X, "\n");
+	print("	val	", addr.val, "\n");
+	print("	rval	", addr.rval, "\n");
+};
+
+sizeofType = 68;
+aggr Type
+{
+	Src 0 src;
+	'b' 24 kind;
+	'C' 25 varargs;
+	'C' 26 ok;
+	'C' 27 def;
+	'C' 28 rec;
+	'C' 29 sized;
+	'C' 30 align;
+	'D' 32 sbl;
+	'D' 36 sig;
+	'D' 40 size;
+	'A' Decl 44 decl;
+	'A' Type 48 of;
+	'A' Decl 52 ids;
+	'A' Decl 56 id;
+	'A' Decl 60 curimp;
+	'A' Case 64 cse;
+};
+
+defn
+Type(addr) {
+	complex Type addr;
+	print("Src src {\n");
+	Src(addr.src);
+	print("}\n");
+	print("	kind	", addr.kind, "\n");
+	print("	varargs	", addr.varargs, "\n");
+	print("	ok	", addr.ok, "\n");
+	print("	def	", addr.def, "\n");
+	print("	rec	", addr.rec, "\n");
+	print("	sized	", addr.sized, "\n");
+	print("	align	", addr.align, "\n");
+	print("	sbl	", addr.sbl, "\n");
+	print("	sig	", addr.sig, "\n");
+	print("	size	", addr.size, "\n");
+	print("	decl	", addr.decl\X, "\n");
+	print("	of	", addr.of\X, "\n");
+	print("	ids	", addr.ids\X, "\n");
+	print("	id	", addr.id\X, "\n");
+	print("	curimp	", addr.curimp\X, "\n");
+	print("	cse	", addr.cse\X, "\n");
+};
+
+sizeofTattr = 8;
+aggr Tattr
+{
+	'C' 0 isptr;
+	'C' 1 refable;
+	'C' 2 conable;
+	'C' 3 big;
+	'C' 4 vis;
+};
+
+defn
+Tattr(addr) {
+	complex Tattr addr;
+	print("	isptr	", addr.isptr, "\n");
+	print("	refable	", addr.refable, "\n");
+	print("	conable	", addr.conable, "\n");
+	print("	big	", addr.big, "\n");
+	print("	vis	", addr.vis, "\n");
+};
+
+complex Block blocks;
+complex Biobuf bout;
+complex Biobuf bsym;
+complex Decl curdecl;
+complex Desc descriptors;
+complex Inst firstinst;
+complex Decl fndecls;
+complex Sym impmod;
+complex Inst lastinst;
+complex Line line;
+complex Decl module;
+complex Decl nildecl;
+complex Line noline;
+complex Src nosrc;
+complex Type tany;
+complex Type tbig;
+complex Type tbyte;
+complex Type terror;
+complex Type tframe;
+complex Type tint;
+complex Type tnone;
+complex Type treal;
+complex Type tstring;
+complex Node znode;
+sizeof_3_ = 8;
+aggr _3_
+{
+	'A' Sym 0 idval;
+	'V' 0 ival;
+	'F' 0 rval;
+};
+
+defn
+_3_(addr) {
+	complex _3_ addr;
+	print("	idval	", addr.idval\X, "\n");
+	print("	ival	", addr.ival, "\n");
+	print("	rval	", addr.rval, "\n");
+};
+
+sizeof_4_ = 32;
+aggr _4_
+{
+	Src 0 src;
+	_3_ 24 v;
+};
+
+defn
+_4_(addr) {
+	complex _4_ addr;
+	print("Src src {\n");
+	Src(addr.src);
+	print("}\n");
+	print("_3_ v {\n");
+	_3_(addr.v);
+	print("}\n");
+};
+
+sizeof_5_ = 32;
+aggr _5_
+{
+	_4_ 0 tok;
+	'A' Decl 0 ids;
+	'A' Node 0 node;
+	'A' Type 0 type;
+};
+
+defn
+_5_(addr) {
+	complex _5_ addr;
+	print("_4_ tok {\n");
+	_4_(addr.tok);
+	print("}\n");
+	print("	ids	", addr.ids\X, "\n");
+	print("	node	", addr.node\X, "\n");
+	print("	type	", addr.type\X, "\n");
+};
+
+complex _5_ yylval;
+sizeofKeywd = 8;
+aggr Keywd
+{
+	'X' 0 name;
+	'D' 4 token;
+};
+
+defn
+Keywd(addr) {
+	complex Keywd addr;
+	print("	name	", addr.name\X, "\n");
+	print("	token	", addr.token, "\n");
+};
+
+complex Biobuf bin;
+complex Sym include:file;
+complex Biobuf include:b;
+complex Keywd lexinit:k;
+complex Sym lexid:sym;
+complex Sym enterstring:s;
+complex Sym symcmp:s;
+complex Sym symcmp:t;
+complex Sym stringcat:s;
+complex Sym stringcat:t;
+complex Sym enter:s;
+complex Fconv gfltconv:f;
+complex Fconv lineconv:f;
+complex Line lineconv:l;
+complex Fconv srcconv:f;
+complex Src srcconv:s;
+complex Line warn:line;
+complex Node nwarn:n;
+complex Line errormsg:line;
+complex Node nerror:n;

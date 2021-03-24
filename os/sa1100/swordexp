@@ -1,0 +1,15 @@
+< swordbimod
+
+# Emu -r debugging
+	/dis/ps.dis
+	/dis/lib/cs.dis
+	/dis/svc/cs/cs.dis /dis/lib/cs.dis
+#	/dis/util/netwflash.dis /prod/sds/dis/util/netwflash.dis
+	/usr/inferno/config/dev/modem /prod/sds/add/ndev/modem
+	/usr/inferno/namespace
+	/usr/inferno/config/dev/version.env /prod/sds/add/test/inferno/sword/config/dev/version.env
+	/usr/inferno/config/dev/sysenv /prod/sds/add/test/inferno/sword/config/dev/sysenv_failsafe
+	/usr/inferno/config/dev/flash0plan9.ini /prod/sds/add/test/inferno/sword/config/dev/plan9.ini
+
+# end bimodal
+

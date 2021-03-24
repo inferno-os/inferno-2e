@@ -1,0 +1,31 @@
+# Lines beginning 'exec' are commands to start automatically within wm
+exec /dis/wm/plumb.dis
+
+# This file defines the format of the cascade menus of the
+# start button in wm
+# The entries are 3 or 4 ":" separated fields
+# <Button Label>:<Menu Label>:<application path>
+# <Button Label>:<Menu Label>:<Menu Label>:<application path>
+Development Tools:Mash:/dis/wm/wmmash.dis
+Development Tools:Limbo Debugger:/dis/wm/deb.dis
+Development Tools:Module Manager:/dis/wm/rt.dis
+Development Tools:Wish:/dis/wm/wmmash.dis / -c /dis/wm/wish.dis
+System:Clock:/dis/wm/date.dis
+System:Stopwatch:/dis/wm/stopwatch.dis
+System:Memory Monitor:/dis/wm/memory.dis
+System:Task Manager:/dis/wm/task.dis
+System:Window Controls:/dis/wm/winctl.dis
+Demos:Coffee Demo:/dis/wm/coffee.dis
+Demos:Linpack Demo:/dis/math/linbench.dis
+Demos:Colors Demo:/dis/wm/colors.dis
+Applications:Charon Browser:/dis/charon.dis
+Applications:Mail Tool:/dis/mailtool/mailtool.dis
+Applications:Notepad:/dis/wm/edit.dis
+Applications:Text Editor:/dis/wm/brutus.dis
+Applications:FTP Access:/dis/wm/wmftp.dis
+Applications:Telnet:/dis/wm/telnet.dis
+Media Players:Image Viewer:/dis/wm/view.dis
+Media Players:Audio Player:/dis/wm/wmplay.dis
+Media Players:MPEG Player:/dis/wm/mpeg.dis
+Media Players:AVI Player:/dis/wm/avi.dis
+Media Players:QuickTime Player:/dis/wm/qt.dis
